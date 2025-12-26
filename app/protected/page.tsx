@@ -12,6 +12,9 @@ import { PrivacySettings } from "@/components/privacy-settings";
 import { QuickCopyButton, ProfileAvatar } from "@/components/quick-copy";
 import { getApiUrl } from "@/lib/config";
 
+// Disable prerendering - this page uses auth data (cookies)
+export const dynamic = 'force-dynamic';
+
 function DashboardSkeleton() {
   return (
     <div className="space-y-8 animate-pulse">

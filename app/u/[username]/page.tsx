@@ -6,6 +6,9 @@ import Link from "next/link";
 import { ThemeSwitcher } from "@/components/theme-switcher";
 import { ProfileData } from "@/types/profile";
 
+// Disable prerendering - this page uses auth data to check ownership
+export const dynamic = 'force-dynamic';
+
 interface PageProps {
     params: Promise<{ username: string }>;
 }

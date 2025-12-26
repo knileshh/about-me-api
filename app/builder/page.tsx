@@ -5,6 +5,9 @@ import { ProfileData } from "@/types/profile";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 
+// Disable prerendering - this page uses auth data
+export const dynamic = 'force-dynamic';
+
 export const metadata = {
     title: "Create Your Profile | About Me API",
     description: "Build your personal API endpoint in minutes",
