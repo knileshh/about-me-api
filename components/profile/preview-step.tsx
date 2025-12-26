@@ -113,11 +113,10 @@ export function PreviewStep({ data, username, onUsernameChange, isUsernameLocked
                     {isUsernameLocked ? "Your username" : "Choose your username *"}
                 </Label>
                 {isUsernameLocked ? (
-                    <div className="space-y-2">
-                        <div className="flex items-center gap-2 p-3 bg-muted rounded-md">
+                    <div className="space-y-1">
+                        <div className="flex items-center gap-2 p-3 bg-muted/50 rounded-md border border-muted">
                             <span className="text-muted-foreground text-sm">aboutme.knileshh.com/u/</span>
-                            <span className="font-medium">{username}</span>
-                            <span className="ml-auto text-xs text-muted-foreground">🔒 Locked</span>
+                            <span className="text-muted-foreground">{username}</span>
                         </div>
                         <p className="text-xs text-muted-foreground">
                             Username cannot be changed after profile creation.

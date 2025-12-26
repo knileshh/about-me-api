@@ -175,18 +175,8 @@ export function ProfileWizard({ existingUsername, existingProfileData }: Profile
                 >
                     Back
                 </Button>
-                {currentStepIndex < STEPS.length - 1 ? (
+                {currentStepIndex < STEPS.length - 1 && (
                     <Button onClick={handleNext}>Continue</Button>
-                ) : (
-                    <Button
-                        onClick={() => {
-                            // This will be handled by the PreviewStep component
-                            // which has the save/signup logic
-                        }}
-                        className="bg-green-600 hover:bg-green-700"
-                    >
-                        Save Profile
-                    </Button>
                 )}
             </div>
         </div>

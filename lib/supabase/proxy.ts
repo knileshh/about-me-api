@@ -53,7 +53,12 @@ export async function updateSession(request: NextRequest) {
     request.nextUrl.pathname.startsWith("/auth") ||
     request.nextUrl.pathname.startsWith("/login") ||
     request.nextUrl.pathname.startsWith("/builder") ||  // Profile builder (progressive flow)
-    request.nextUrl.pathname.startsWith("/u/");         // Public profiles
+    request.nextUrl.pathname.startsWith("/u/") ||       // Public profiles
+    request.nextUrl.pathname.startsWith("/api/u/") ||   // Public API endpoints
+    request.nextUrl.pathname.startsWith("/about") ||    // SEO pages
+    request.nextUrl.pathname.startsWith("/blog") ||
+    request.nextUrl.pathname.startsWith("/privacy") ||
+    request.nextUrl.pathname.startsWith("/terms");
 
   if (!user && !isPublicRoute) {
     // no user, redirect to login
