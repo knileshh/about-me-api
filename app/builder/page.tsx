@@ -1,5 +1,6 @@
 import { ProfileWizard } from "@/components/profile/profile-wizard";
 import { ThemeSwitcher } from "@/components/theme-switcher";
+import { createClient } from "@/lib/supabase/server";
 import Link from "next/link";
 
 export const metadata = {
@@ -7,7 +8,22 @@ export const metadata = {
     description: "Build your personal API endpoint in minutes",
 };
 
-export default function BuilderPage() {
+export default async function BuilderPage() {
+    const supabase = await createClient();
+    const { data: authData } = await supabase.auth.getClaims();
+    const isLoggedIn = !!authData?.claims;
+
+    // Check if user already has a profile
+    let existingUsername: string | null = null;
+    if (isLoggedIn && authData?.claims?.sub) {
+        const { data: profile } = await supabase
+            .from("profiles")
+            .select("username")
+            .eq("user_id", authData.claims.sub)
+            .single();
+        existingUsername = profile?.username || null;
+    }
+
     return (
         <main className="min-h-screen flex flex-col">
             {/* Header */}
@@ -17,9 +33,15 @@ export default function BuilderPage() {
                         About Me API
                     </Link>
                     <div className="flex items-center gap-4">
-                        <Link href="/auth/login" className="text-muted-foreground hover:text-foreground">
-                            Login
-                        </Link>
+                        {isLoggedIn ? (
+                            <Link href="/protected" className="text-muted-foreground hover:text-foreground">
+                                Dashboard
+                            </Link>
+                        ) : (
+                            <Link href="/auth/login" className="text-muted-foreground hover:text-foreground">
+                                Login
+                            </Link>
+                        )}
                         <ThemeSwitcher />
                     </div>
                 </div>
@@ -28,13 +50,17 @@ export default function BuilderPage() {
             {/* Content */}
             <div className="flex-1 flex flex-col items-center py-12 px-4">
                 <div className="text-center mb-8">
-                    <h1 className="text-3xl font-bold mb-2">Build Your Profile</h1>
+                    <h1 className="text-3xl font-bold mb-2">
+                        {existingUsername ? "Edit Your Profile" : "Build Your Profile"}
+                    </h1>
                     <p className="text-muted-foreground">
-                        Create your personal API endpoint in just a few steps
+                        {existingUsername
+                            ? "Update your profile information"
+                            : "Create your personal API endpoint in just a few steps"}
                     </p>
                 </div>
 
-                <ProfileWizard />
+                <ProfileWizard existingUsername={existingUsername} />
             </div>
 
             {/* Footer */}

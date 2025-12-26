@@ -19,10 +19,14 @@ const STEPS: { id: WizardStep; title: string; description: string }[] = [
 
 const STORAGE_KEY = "aboutme_draft_profile";
 
-export function ProfileWizard() {
+interface ProfileWizardProps {
+    existingUsername?: string | null;
+}
+
+export function ProfileWizard({ existingUsername }: ProfileWizardProps) {
     const [currentStepIndex, setCurrentStepIndex] = useState(0);
     const [profileData, setProfileData] = useState<ProfileData>({});
-    const [username, setUsername] = useState("");
+    const [username, setUsername] = useState(existingUsername || "");
     const [isLoaded, setIsLoaded] = useState(false);
 
     // Load draft from localStorage on mount
@@ -32,14 +36,17 @@ export function ProfileWizard() {
             try {
                 const parsed = JSON.parse(saved);
                 setProfileData(parsed.profileData || {});
-                setUsername(parsed.username || "");
+                // Only load saved username if there's no existing one
+                if (!existingUsername) {
+                    setUsername(parsed.username || "");
+                }
                 setCurrentStepIndex(parsed.stepIndex || 0);
             } catch (e) {
                 console.error("Failed to load draft:", e);
             }
         }
         setIsLoaded(true);
-    }, []);
+    }, [existingUsername]);
 
     // Save draft to localStorage on changes
     useEffect(() => {
@@ -103,6 +110,7 @@ export function ProfileWizard() {
                         data={profileData}
                         username={username}
                         onUsernameChange={setUsername}
+                        isUsernameLocked={!!existingUsername}
                     />
                 );
             default:

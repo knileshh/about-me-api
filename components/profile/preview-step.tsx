@@ -13,9 +13,10 @@ interface PreviewStepProps {
     data: ProfileData;
     username: string;
     onUsernameChange: (username: string) => void;
+    isUsernameLocked?: boolean;
 }
 
-export function PreviewStep({ data, username, onUsernameChange }: PreviewStepProps) {
+export function PreviewStep({ data, username, onUsernameChange, isUsernameLocked }: PreviewStepProps) {
     const [isChecking, setIsChecking] = useState(false);
     const [isAvailable, setIsAvailable] = useState<boolean | null>(null);
     const [isSaving, setIsSaving] = useState(false);
@@ -108,38 +109,58 @@ export function PreviewStep({ data, username, onUsernameChange }: PreviewStepPro
         <div className="space-y-6">
             {/* Username */}
             <div className="space-y-2">
-                <Label htmlFor="username">Choose your username *</Label>
-                <div className="flex gap-2">
-                    <div className="relative flex-1">
-                        <span className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground text-sm">
-                            aboutme.knileshh.com/u/
-                        </span>
-                        <Input
-                            id="username"
-                            className="pl-[180px]"
-                            placeholder="nilesh"
-                            value={username}
-                            onChange={(e) => {
-                                const value = e.target.value.toLowerCase().replace(/[^a-z0-9_-]/g, "");
-                                onUsernameChange(value);
-                                setIsAvailable(null);
-                            }}
-                        />
+                <Label htmlFor="username">
+                    {isUsernameLocked ? "Your username" : "Choose your username *"}
+                </Label>
+                {isUsernameLocked ? (
+                    <div className="space-y-2">
+                        <div className="flex items-center gap-2 p-3 bg-muted rounded-md">
+                            <span className="text-muted-foreground text-sm">aboutme.knileshh.com/u/</span>
+                            <span className="font-medium">{username}</span>
+                            <span className="ml-auto text-xs text-muted-foreground">🔒 Locked</span>
+                        </div>
+                        <p className="text-xs text-muted-foreground">
+                            Username cannot be changed after profile creation.
+                        </p>
                     </div>
-                    <Button
-                        type="button"
-                        variant="outline"
-                        onClick={checkUsername}
-                        disabled={isChecking || !username.trim()}
-                    >
-                        {isChecking ? "Checking..." : "Check"}
-                    </Button>
-                </div>
-                {isAvailable === true && (
-                    <p className="text-sm text-green-600">✓ Username is available!</p>
-                )}
-                {isAvailable === false && (
-                    <p className="text-sm text-red-600">✗ Username is taken</p>
+                ) : (
+                    <>
+                        <div className="flex gap-2">
+                            <div className="relative flex-1">
+                                <span className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground text-sm">
+                                    aboutme.knileshh.com/u/
+                                </span>
+                                <Input
+                                    id="username"
+                                    className="pl-[180px]"
+                                    placeholder="nilesh"
+                                    value={username}
+                                    onChange={(e) => {
+                                        const value = e.target.value.toLowerCase().replace(/[^a-z0-9_-]/g, "");
+                                        onUsernameChange(value);
+                                        setIsAvailable(null);
+                                    }}
+                                />
+                            </div>
+                            <Button
+                                type="button"
+                                variant="outline"
+                                onClick={checkUsername}
+                                disabled={isChecking || !username.trim()}
+                            >
+                                {isChecking ? "Checking..." : "Check"}
+                            </Button>
+                        </div>
+                        <p className="text-xs text-muted-foreground">
+                            ⚠️ Choose carefully — username cannot be changed later.
+                        </p>
+                        {isAvailable === true && (
+                            <p className="text-sm text-green-600">✓ Username is available!</p>
+                        )}
+                        {isAvailable === false && (
+                            <p className="text-sm text-red-600">✗ Username is taken</p>
+                        )}
+                    </>
                 )}
             </div>
 

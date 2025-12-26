@@ -88,8 +88,13 @@ export default async function ProfilePage({ params }: PageProps) {
             <div className="flex-1 flex flex-col items-center py-12 px-4">
                 <Card className="w-full max-w-2xl">
                     <CardContent className="pt-8 space-y-6">
-                        {/* Header */}
+                        {/* Header with Avatar */}
                         <div className="text-center">
+                            {/* Avatar */}
+                            <div className="w-24 h-24 mx-auto mb-4 rounded-full bg-gradient-to-br from-primary/20 to-primary/40 flex items-center justify-center text-3xl font-bold text-primary">
+                                {data.identity?.name?.first?.[0]?.toUpperCase() || profile.username[0].toUpperCase()}
+                                {data.identity?.name?.last?.[0]?.toUpperCase() || ""}
+                            </div>
                             <h1 className="text-3xl font-bold">{fullName || profile.username}</h1>
                             {data.identity?.pronouns && (
                                 <p className="text-muted-foreground text-sm mt-1">
