@@ -40,26 +40,48 @@ export default async function ProfilePage({ params }: PageProps) {
     const { username } = await params;
     const supabase = await createClient();
 
-    // Check if current user is logged in and has a profile
+    // Check if current user is logged in and get their profile info
     const { data: authData } = await supabase.auth.getClaims();
     const isLoggedIn = !!authData?.claims;
     let hasProfile = false;
+    let isOwner = false;
 
     if (isLoggedIn && authData?.claims?.sub) {
         const { data: userProfile } = await supabase
             .from("profiles")
-            .select("id")
+            .select("id, username")
             .eq("user_id", authData.claims.sub)
             .single();
         hasProfile = !!userProfile;
+        // Check if the logged-in user is viewing their own profile
+        isOwner = userProfile?.username?.toLowerCase() === username.toLowerCase();
     }
 
-    const { data: profile, error } = await supabase
-        .from("profiles")
-        .select("*")
-        .eq("username", username.toLowerCase())
-        .eq("is_public", true)
-        .single();
+    // Fetch the requested profile
+    // If user is owner, fetch without is_public restriction
+    let profile;
+    let error;
+
+    if (isOwner) {
+        // Owner can view their own profile regardless of privacy setting
+        const result = await supabase
+            .from("profiles")
+            .select("*")
+            .eq("username", username.toLowerCase())
+            .single();
+        profile = result.data;
+        error = result.error;
+    } else {
+        // Non-owners can only view public profiles
+        const result = await supabase
+            .from("profiles")
+            .select("*")
+            .eq("username", username.toLowerCase())
+            .eq("is_public", true)
+            .single();
+        profile = result.data;
+        error = result.error;
+    }
 
     if (error || !profile) {
         notFound();
