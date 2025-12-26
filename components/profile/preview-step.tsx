@@ -77,6 +77,8 @@ export function PreviewStep({ data, username, onUsernameChange }: PreviewStepPro
                     username: username.toLowerCase(),
                     profile_data: data,
                     is_public: true,
+                }, {
+                    onConflict: 'user_id'
                 });
 
             if (saveError) throw saveError;
