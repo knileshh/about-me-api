@@ -8,6 +8,7 @@ import { Badge } from "@/components/ui/badge";
 import { ProfileData } from "@/types/profile";
 import { Suspense } from "react";
 import { ShareCTA } from "@/components/share-buttons";
+import { PrivacySettings } from "@/components/privacy-settings";
 
 function DashboardSkeleton() {
   return (
@@ -136,6 +137,13 @@ async function DashboardContent() {
               </div>
             </CardContent>
           </Card>
+
+          {/* Privacy Settings */}
+          <PrivacySettings
+            profileId={profile.id}
+            isPublic={profile.is_public}
+            apiKey={profile.api_key}
+          />
 
           {/* Stats */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">

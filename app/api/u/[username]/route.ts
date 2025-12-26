@@ -22,19 +22,69 @@ export async function GET(request: NextRequest, { params }: RouteParams) {
     const { username } = await params;
     const supabase = await createClient();
 
-    // Fetch profile
-    const { data: profile, error } = await supabase
-        .from("profiles")
-        .select("*")
-        .eq("username", username.toLowerCase())
-        .eq("is_public", true)
-        .single();
+    // Get API key from Authorization header (if provided)
+    const authHeader = request.headers.get("authorization");
+    const apiKey = authHeader?.startsWith("Bearer ")
+        ? authHeader.substring(7)
+        : null;
 
-    if (error || !profile) {
-        return NextResponse.json(
-            { error: "Profile not found" },
-            { status: 404 }
-        );
+    // First, try to fetch the profile (public or with API key)
+    let profile;
+    let error;
+
+    if (apiKey) {
+        // If API key provided, fetch profile matching username AND api_key
+        const result = await supabase
+            .from("profiles")
+            .select("*")
+            .eq("username", username.toLowerCase())
+            .eq("api_key", apiKey)
+            .single();
+
+        profile = result.data;
+        error = result.error;
+
+        if (error || !profile) {
+            return NextResponse.json(
+                { error: "Invalid API key or profile not found" },
+                { status: 401 }
+            );
+        }
+    } else {
+        // No API key, only fetch public profiles
+        const result = await supabase
+            .from("profiles")
+            .select("*")
+            .eq("username", username.toLowerCase())
+            .eq("is_public", true)
+            .single();
+
+        profile = result.data;
+        error = result.error;
+
+        if (error || !profile) {
+            // Check if profile exists but is private
+            const { data: privateProfile } = await supabase
+                .from("profiles")
+                .select("id, is_public")
+                .eq("username", username.toLowerCase())
+                .single();
+
+            if (privateProfile && !privateProfile.is_public) {
+                return NextResponse.json(
+                    {
+                        error: "This profile is private",
+                        message: "Use API key authentication to access this profile. Include 'Authorization: Bearer <api_key>' header."
+                    },
+                    { status: 403 }
+                );
+            }
+
+            return NextResponse.json(
+                { error: "Profile not found" },
+                { status: 404 }
+            );
+        }
     }
 
     // Log API access (fire and forget)
@@ -65,12 +115,15 @@ export async function GET(request: NextRequest, { params }: RouteParams) {
             api_version: "1.0",
             fetched_at: new Date().toISOString(),
             profile_url: `https://aboutme.knileshh.com/u/${profile.username}`,
+            is_public: profile.is_public,
         },
     };
 
     return NextResponse.json(response, {
         headers: {
-            "Cache-Control": "public, s-maxage=60, stale-while-revalidate=300",
+            "Cache-Control": profile.is_public
+                ? "public, s-maxage=60, stale-while-revalidate=300"
+                : "private, no-cache",
         },
     });
 }
