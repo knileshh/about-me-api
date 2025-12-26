@@ -3,8 +3,37 @@ import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { CopyButton } from "@/components/copy-button";
 import { Badge } from "@/components/ui/badge";
 import { ProfileData } from "@/types/profile";
+import { Suspense } from "react";
+
+function DashboardSkeleton() {
+  return (
+    <div className="space-y-8 animate-pulse">
+      <div>
+        <div className="h-9 bg-muted rounded w-64 mb-2"></div>
+        <div className="h-5 bg-muted rounded w-96"></div>
+      </div>
+      <Card>
+        <CardContent className="pt-6">
+          <div className="h-6 bg-muted rounded w-full mb-4"></div>
+          <div className="h-10 bg-muted rounded w-full"></div>
+        </CardContent>
+      </Card>
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        {[1, 2, 3].map((i) => (
+          <Card key={i}>
+            <CardContent className="pt-6">
+              <div className="h-10 bg-muted rounded w-16 mx-auto mb-2"></div>
+              <div className="h-4 bg-muted rounded w-20 mx-auto"></div>
+            </CardContent>
+          </Card>
+        ))}
+      </div>
+    </div>
+  );
+}
 
 async function DashboardContent() {
   const supabase = await createClient();
@@ -90,14 +119,7 @@ async function DashboardContent() {
                 <code className="flex-1 bg-muted px-4 py-3 rounded-md text-sm font-mono">
                   https://aboutme.knileshh.com/api/u/{profile.username}
                 </code>
-                <Button
-                  variant="outline"
-                  onClick={() => {
-                    // This will be a client component
-                  }}
-                >
-                  Copy
-                </Button>
+                <CopyButton text={`https://aboutme.knileshh.com/api/u/${profile.username}`} />
               </div>
               <div className="flex gap-2 mt-4">
                 <Link href={`/u/${profile.username}`}>
@@ -209,5 +231,10 @@ async function DashboardContent() {
 }
 
 export default function DashboardPage() {
-  return <DashboardContent />;
+  return (
+    <Suspense fallback={<DashboardSkeleton />}>
+      <DashboardContent />
+    </Suspense>
+  );
 }
+
