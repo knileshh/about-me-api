@@ -8,6 +8,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
 import { CopyButton } from "./copy-button";
+import { getSiteUrl } from "@/lib/config";
 
 interface PrivacySettingsProps {
     profileId: string;
@@ -181,7 +182,7 @@ export function PrivacySettings({ profileId, isPublic: initialIsPublic, apiKey: 
                             <p className="text-xs text-muted-foreground mb-2">Usage example:</p>
                             <code className="text-xs">
                                 curl -H "Authorization: Bearer {showApiKey ? apiKey : '<api_key>'}" \<br />
-                                &nbsp;&nbsp;https://aboutme.knileshh.com/api/u/username
+                                &nbsp;&nbsp;{getSiteUrl()}/api/u/username
                             </code>
                         </div>
                     )}

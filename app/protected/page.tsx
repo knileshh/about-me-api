@@ -10,6 +10,7 @@ import { Suspense } from "react";
 import { ShareCTA } from "@/components/share-buttons";
 import { PrivacySettings } from "@/components/privacy-settings";
 import { QuickCopyButton, ProfileAvatar } from "@/components/quick-copy";
+import { getApiUrl } from "@/lib/config";
 
 function DashboardSkeleton() {
   return (
@@ -138,9 +139,9 @@ async function DashboardContent() {
             <CardContent>
               <div className="flex items-center gap-4">
                 <code className="flex-1 bg-muted px-4 py-3 rounded-md text-sm font-mono">
-                  https://aboutme.knileshh.com/api/u/{profile.username}
+                  {getApiUrl(profile.username)}
                 </code>
-                <CopyButton text={`https://aboutme.knileshh.com/api/u/${profile.username}`} />
+                <CopyButton text={getApiUrl(profile.username)} />
               </div>
               <div className="flex gap-2 mt-4">
                 <Link href={`/u/${profile.username}`}>

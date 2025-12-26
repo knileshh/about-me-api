@@ -1,6 +1,7 @@
 import { createClient } from "@/lib/supabase/server";
 import { NextRequest, NextResponse } from "next/server";
 import { ProfileData } from "@/types/profile";
+import { getProfileUrl } from "@/lib/config";
 
 interface RouteParams {
     params: Promise<{ username: string }>;
@@ -114,7 +115,7 @@ export async function GET(request: NextRequest, { params }: RouteParams) {
         _meta: {
             api_version: "1.0",
             fetched_at: new Date().toISOString(),
-            profile_url: `https://aboutme.knileshh.com/u/${profile.username}`,
+            profile_url: getProfileUrl(profile.username),
             is_public: profile.is_public,
         },
     };

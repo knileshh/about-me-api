@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
+import { getApiUrl } from "@/lib/config";
 
 interface QuickCopyButtonProps {
     username: string;
@@ -13,7 +14,7 @@ export function QuickCopyButton({ username, isPublic, apiKey }: QuickCopyButtonP
     const [copied, setCopied] = useState(false);
 
     const handleCopy = async () => {
-        const baseUrl = `https://aboutme.knileshh.com/api/u/${username}`;
+        const baseUrl = getApiUrl(username);
 
         let textToCopy: string;
         if (isPublic) {
