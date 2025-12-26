@@ -1,0 +1,188 @@
+{
+  "identity": {
+    "name": {
+      "first": "Nilesh",
+      "middle": null,
+      "last": "Patel"
+    },
+    "date_of_birth": "2001-08-12"
+  },
+  "location": {
+    "hometown": "Ahmedabad, India",
+    "current_city": "Bengaluru, India",
+    "timezone": "Asia/Kolkata"
+  },
+  "contact": {
+    "emails": {
+      "personal": "me@gmail.com",
+      "work": "me@company.com"
+    },
+    "phones": {
+      "work": "+91-XXXXXXXXXX"
+    }
+  },
+  "presence": {
+    "socials": {
+      "github": "https://github.com/username",
+      "linkedin": "https://linkedin.com/in/username",
+      "twitter": null,
+      "instagram": null,
+      "facebook": null,
+      "youtube": null,
+      "other": []
+    },
+    "competitive_programming": {
+      "leetcode": "https://leetcode.com/username",
+      "codeforces": null,
+      "codechef": null,
+      "codolio": null
+    },
+    "launch_platforms": {
+      "producthunt": "https://producthunt.com/@username",
+      "peerlist": "https://peerlist.io/username",
+      "indiehackers": null
+    }
+  },
+  "career": {
+    "current_status": "postgraduate_student",
+    "currently_studying": "MSc Computer Science",
+    "primary_roles": [
+      "Backend Developer",
+      "Systems Engineer"
+    ],
+    "secondary_roles": [
+      "DevOps"
+    ],
+    "targets": [
+      "Backend roles",
+      "Distributed systems"
+    ]
+  },
+  "job_preferences": {
+    "open_to_work": true,
+    "preferred_roles": [
+      "Backend Developer"
+    ],
+    "employment_types": [
+      "Full-time",
+      "Internship"
+    ],
+    "locations": [
+      "Remote",
+      "India"
+    ],
+    "tech_focus": [
+      "Java",
+      "Node.js",
+      "Distributed Systems"
+    ]
+  },
+  "assets": {
+    "profile_images": {
+      "default": {
+        "current": "v2",
+        "versions": {
+          "v1": {
+            "url": "https://cdn.about-me-api.com/u/username/profile/default/v1.jpg",
+            "uploaded_at": "2023-06-01",
+            "notes": "Original avatar"
+          },
+          "v2": {
+            "url": "https://cdn.about-me-api.com/u/username/profile/default/v2.jpg",
+            "uploaded_at": "2024-08-12",
+            "notes": "Updated professional headshot"
+          }
+        }
+      },
+      "work": {
+        "current": "v1",
+        "versions": {
+          "v1": {
+            "url": "https://cdn.about-me-api.com/u/username/profile/work/v1.jpg",
+            "uploaded_at": "2024-01-10",
+            "notes": "Formal work profile photo"
+          }
+        }
+      },
+      "travel": {
+        "current": "v1",
+        "versions": {
+          "v1": {
+            "url": "https://cdn.about-me-api.com/u/username/profile/travel/v1.jpg",
+            "uploaded_at": "2024-12-02",
+            "notes": "Casual travel photo"
+          }
+        }
+      }
+    }
+  },
+  "artifacts": {
+    "resumes": {
+      "general": {
+        "title": "General Software Engineer Resume",
+        "url": "https://example.com/resume-general.pdf"
+      },
+      "java": {
+        "title": "Java Backend Resume",
+        "url": "https://example.com/resume-java.pdf"
+      },
+      "node": {
+        "title": "Node.js Backend Resume",
+        "url": "https://example.com/resume-node.pdf"
+      },
+      "ai": {
+        "title": "AI Resume",
+        "url": "https://example.com/resume-ai.pdf"
+      }
+    },
+    "projects": [
+      {
+        "id": "about-me-api",
+        "name": "About Me API",
+        "description": "Programmable identity and context service",
+        "tech_stack": [
+          "Node.js",
+          "PostgreSQL",
+          "REST"
+        ],
+        "role": "Creator",
+        "status": "active",
+        "links": {
+          "github": "https://github.com/username/about-me-api",
+          "live": "https://about-me-api.com",
+          "producthunt": "https://producthunt.com/posts/about-me-api"
+        }
+      }
+    ]
+  },
+  "experience": [
+    {
+      "company": "TechStack India",
+      "role": "Backend Intern",
+      "start_date": "2024-01",
+      "end_date": "2024-06",
+      "description": [
+        "Built REST APIs",
+        "Implemented authentication and authorization flows"
+      ],
+      "tech_stack": [
+        "Node.js",
+        "MongoDB"
+      ]
+    }
+  ],
+  "meta": {
+    "schema_version": "1.0.0",
+    "sources": {
+      "resume": true,
+      "github": true,
+      "linkedin": false
+    },
+    "verified_fields": [
+      "identity.name",
+      "presence.socials.github",
+      "contact.emails.work"
+    ],
+    "last_updated": "2025-01-10"
+  }
+}
