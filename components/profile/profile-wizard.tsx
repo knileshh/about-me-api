@@ -21,22 +21,30 @@ const STORAGE_KEY = "aboutme_draft_profile";
 
 interface ProfileWizardProps {
     existingUsername?: string | null;
+    existingProfileData?: ProfileData | null;
 }
 
-export function ProfileWizard({ existingUsername }: ProfileWizardProps) {
+export function ProfileWizard({ existingUsername, existingProfileData }: ProfileWizardProps) {
     const [currentStepIndex, setCurrentStepIndex] = useState(0);
-    const [profileData, setProfileData] = useState<ProfileData>({});
+    const [profileData, setProfileData] = useState<ProfileData>(existingProfileData || {});
     const [username, setUsername] = useState(existingUsername || "");
     const [isLoaded, setIsLoaded] = useState(false);
 
-    // Load draft from localStorage on mount
+    // Load draft from localStorage on mount (only for new profiles)
     useEffect(() => {
+        // If editing existing profile, use that data directly
+        if (existingProfileData) {
+            setProfileData(existingProfileData);
+            setIsLoaded(true);
+            return;
+        }
+
+        // For new profiles, load from localStorage
         const saved = localStorage.getItem(STORAGE_KEY);
         if (saved) {
             try {
                 const parsed = JSON.parse(saved);
                 setProfileData(parsed.profileData || {});
-                // Only load saved username if there's no existing one
                 if (!existingUsername) {
                     setUsername(parsed.username || "");
                 }
@@ -46,7 +54,7 @@ export function ProfileWizard({ existingUsername }: ProfileWizardProps) {
             }
         }
         setIsLoaded(true);
-    }, [existingUsername]);
+    }, [existingUsername, existingProfileData]);
 
     // Save draft to localStorage on changes
     useEffect(() => {
@@ -136,10 +144,10 @@ export function ProfileWizard({ existingUsername }: ProfileWizardProps) {
                             key={step.id}
                             onClick={() => setCurrentStepIndex(index)}
                             className={`text-xs font-medium transition-colors ${index === currentStepIndex
-                                    ? "text-primary"
-                                    : index < currentStepIndex
-                                        ? "text-green-600"
-                                        : "text-muted-foreground"
+                                ? "text-primary"
+                                : index < currentStepIndex
+                                    ? "text-green-600"
+                                    : "text-muted-foreground"
                                 }`}
                         >
                             {step.title}

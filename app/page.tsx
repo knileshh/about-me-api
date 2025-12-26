@@ -2,6 +2,7 @@ import { AuthButton } from "@/components/auth-button";
 import { ThemeSwitcher } from "@/components/theme-switcher";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import { Footer } from "@/components/footer";
 import { hasEnvVars } from "@/lib/utils";
 import Link from "next/link";
 import { Suspense } from "react";
@@ -187,13 +188,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Footer */}
-      <footer className="w-full flex items-center justify-center border-t text-center text-xs gap-8 py-8">
-        <p className="text-muted-foreground">
-          © 2024 About Me API — Built with Next.js & Supabase
-        </p>
-        <ThemeSwitcher />
-      </footer>
+      <Footer />
     </main>
   );
 }

@@ -1,6 +1,7 @@
 import { ProfileWizard } from "@/components/profile/profile-wizard";
 import { ThemeSwitcher } from "@/components/theme-switcher";
 import { createClient } from "@/lib/supabase/server";
+import { ProfileData } from "@/types/profile";
 import Link from "next/link";
 
 export const metadata = {
@@ -13,15 +14,21 @@ export default async function BuilderPage() {
     const { data: authData } = await supabase.auth.getClaims();
     const isLoggedIn = !!authData?.claims;
 
-    // Check if user already has a profile
+    // Check if user already has a profile and fetch data
     let existingUsername: string | null = null;
+    let existingProfileData: ProfileData | null = null;
+
     if (isLoggedIn && authData?.claims?.sub) {
         const { data: profile } = await supabase
             .from("profiles")
-            .select("username")
+            .select("username, profile_data")
             .eq("user_id", authData.claims.sub)
             .single();
-        existingUsername = profile?.username || null;
+
+        if (profile) {
+            existingUsername = profile.username;
+            existingProfileData = profile.profile_data as ProfileData;
+        }
     }
 
     return (
@@ -60,7 +67,10 @@ export default async function BuilderPage() {
                     </p>
                 </div>
 
-                <ProfileWizard existingUsername={existingUsername} />
+                <ProfileWizard
+                    existingUsername={existingUsername}
+                    existingProfileData={existingProfileData}
+                />
             </div>
 
             {/* Footer */}

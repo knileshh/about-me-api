@@ -7,6 +7,7 @@ import { CopyButton } from "@/components/copy-button";
 import { Badge } from "@/components/ui/badge";
 import { ProfileData } from "@/types/profile";
 import { Suspense } from "react";
+import { ShareCTA } from "@/components/share-buttons";
 
 function DashboardSkeleton() {
   return (
@@ -209,6 +210,9 @@ async function DashboardContent() {
               )}
             </CardContent>
           </Card>
+
+          {/* Share CTA */}
+          <ShareCTA />
         </>
       ) : (
         /* No Profile Yet */
