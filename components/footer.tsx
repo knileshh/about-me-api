@@ -95,7 +95,7 @@ export function Footer() {
                 {/* Bottom */}
                 <div className="mt-12 pt-8 border-t flex flex-col md:flex-row justify-between items-center gap-4">
                     <p className="text-sm text-muted-foreground">
-                        © {new Date().getFullYear()} About Me API. All rights reserved.
+                        © 2025-26 About Me API. All rights reserved.
                     </p>
                     <div className="flex gap-4">
                         {footerLinks.social.map((link) => (
