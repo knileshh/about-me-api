@@ -40,6 +40,20 @@ export default async function ProfilePage({ params }: PageProps) {
     const { username } = await params;
     const supabase = await createClient();
 
+    // Check if current user is logged in and has a profile
+    const { data: authData } = await supabase.auth.getClaims();
+    const isLoggedIn = !!authData?.claims;
+    let hasProfile = false;
+
+    if (isLoggedIn && authData?.claims?.sub) {
+        const { data: userProfile } = await supabase
+            .from("profiles")
+            .select("id")
+            .eq("user_id", authData.claims.sub)
+            .single();
+        hasProfile = !!userProfile;
+    }
+
     const { data: profile, error } = await supabase
         .from("profiles")
         .select("*")
@@ -76,9 +90,15 @@ export default async function ProfilePage({ params }: PageProps) {
                         About Me API
                     </Link>
                     <div className="flex items-center gap-4">
-                        <Link href="/builder" className="text-muted-foreground hover:text-foreground">
-                            Create yours
-                        </Link>
+                        {isLoggedIn && hasProfile ? (
+                            <Link href="/protected" className="text-muted-foreground hover:text-foreground">
+                                Dashboard
+                            </Link>
+                        ) : (
+                            <Link href="/builder" className="text-muted-foreground hover:text-foreground">
+                                Create yours
+                            </Link>
+                        )}
                         <ThemeSwitcher />
                     </div>
                 </div>
