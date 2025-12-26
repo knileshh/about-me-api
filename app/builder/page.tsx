@@ -3,6 +3,7 @@ import { ThemeSwitcher } from "@/components/theme-switcher";
 import { createClient } from "@/lib/supabase/server";
 import { ProfileData } from "@/types/profile";
 import Link from "next/link";
+import { redirect } from "next/navigation";
 
 export const metadata = {
     title: "Create Your Profile | About Me API",
@@ -14,7 +15,7 @@ export default async function BuilderPage() {
     const { data: authData } = await supabase.auth.getClaims();
     const isLoggedIn = !!authData?.claims;
 
-    // Check if user already has a profile and fetch data
+    // Check if user already has a profile
     let existingUsername: string | null = null;
     let existingProfileData: ProfileData | null = null;
 
@@ -26,8 +27,8 @@ export default async function BuilderPage() {
             .single();
 
         if (profile) {
-            existingUsername = profile.username;
-            existingProfileData = profile.profile_data as ProfileData;
+            // User already has a profile, redirect to dashboard
+            redirect("/protected");
         }
     }
 
