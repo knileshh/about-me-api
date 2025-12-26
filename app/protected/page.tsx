@@ -9,6 +9,7 @@ import { ProfileData } from "@/types/profile";
 import { Suspense } from "react";
 import { ShareCTA } from "@/components/share-buttons";
 import { PrivacySettings } from "@/components/privacy-settings";
+import { QuickCopyButton, ProfileAvatar } from "@/components/quick-copy";
 
 function DashboardSkeleton() {
   return (
@@ -96,14 +97,32 @@ async function DashboardContent() {
 
   return (
     <div className="space-y-8">
-      {/* Welcome */}
-      <div>
-        <h1 className="text-3xl font-bold">
-          Welcome{fullName ? `, ${fullName}` : ""}! 👋
-        </h1>
-        <p className="text-muted-foreground mt-1">
-          Manage your profile and view your API analytics
-        </p>
+      {/* Welcome with Quick Copy */}
+      <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+        <div className="flex items-center gap-4">
+          {profile && (
+            <ProfileAvatar
+              initials={fullName ? fullName.split(' ').map(n => n[0]).join('').toUpperCase() : profile.username[0].toUpperCase()}
+              isPublic={profile.is_public}
+              size="lg"
+            />
+          )}
+          <div>
+            <h1 className="text-3xl font-bold">
+              Welcome{fullName ? `, ${fullName}` : ""}! 👋
+            </h1>
+            <p className="text-muted-foreground mt-1">
+              Manage your profile and view your API analytics
+            </p>
+          </div>
+        </div>
+        {profile && (
+          <QuickCopyButton
+            username={profile.username}
+            isPublic={profile.is_public}
+            apiKey={profile.api_key}
+          />
+        )}
       </div>
 
       {profile ? (
