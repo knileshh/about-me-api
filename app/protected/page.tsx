@@ -11,6 +11,7 @@ import { ShareCTA } from "@/components/share-buttons";
 import { PrivacySettings } from "@/components/privacy-settings";
 import { QuickCopyButton, ProfileAvatar } from "@/components/quick-copy";
 import { getApiUrl } from "@/lib/config";
+import { LinkedAccounts } from "@/components/linked-accounts";
 
 // Disable prerendering - this page uses auth data (cookies)
 export const dynamic = 'force-dynamic';
@@ -167,6 +168,9 @@ async function DashboardContent() {
             isPublic={profile.is_public}
             apiKey={profile.api_key}
           />
+
+          {/* Linked Accounts */}
+          <LinkedAccounts userEmail={authData.claims.email as string || ""} />
 
           {/* Stats */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
