@@ -89,8 +89,8 @@ export default function PrivacyPage() {
                         <h2 className="text-2xl font-semibold mb-4">7. Contact Us</h2>
                         <p className="text-muted-foreground leading-relaxed">
                             If you have questions about this Privacy Policy, please contact us at{" "}
-                            <a href="mailto:privacy@knileshh.com" className="text-primary hover:underline">
-                                privacy@knileshh.com
+                            <a href="mailto:privacy@about-me-api.xyz" className="text-primary hover:underline">
+                                privacy@about-me-api.xyz
                             </a>
                         </p>
                     </section>

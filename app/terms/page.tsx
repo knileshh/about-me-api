@@ -108,8 +108,8 @@ export default function TermsPage() {
                         <h2 className="text-2xl font-semibold mb-4">9. Contact</h2>
                         <p className="text-muted-foreground leading-relaxed">
                             For questions about these Terms, contact us at{" "}
-                            <a href="mailto:legal@knileshh.com" className="text-primary hover:underline">
-                                legal@knileshh.com
+                            <a href="mailto:legal@about-me-api.xyz" className="text-primary hover:underline">
+                                legal@about-me-api.xyz
                             </a>
                         </p>
                     </section>
