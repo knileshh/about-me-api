@@ -37,13 +37,13 @@ const ThemeSwitcher = () => {
         "absolute inset-0 flex items-center justify-center transition-transform duration-500",
         theme === "dark" ? "rotate-0 opacity-100" : "-rotate-90 opacity-0"
       )}>
-        <Moon className="h-[1.2rem] w-[1.2rem] text-blue-400" />
+        <Moon className="h-[1.2rem] w-[1.2rem] text-white" />
       </div>
       <div className={cn(
         "absolute inset-0 flex items-center justify-center transition-transform duration-500",
         theme === "light" ? "rotate-0 opacity-100" : "rotate-90 opacity-0"
       )}>
-        <Sun className="h-[1.2rem] w-[1.2rem] text-orange-500" />
+        <Sun className="h-[1.2rem] w-[1.2rem] text-black" />
       </div>
     </Button>
   );

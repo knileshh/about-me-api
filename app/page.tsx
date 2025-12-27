@@ -81,7 +81,7 @@ export default function Home() {
           >
             <div className="relative group">
               {/* Animated Border Ray - Linear Shimmer */}
-              <div className="absolute -inset-[1px] rounded-full overflow-hidden">
+              <div className="absolute -inset-[2px] rounded-full overflow-hidden">
                 <div
                   className="absolute inset-0 animate-shimmer"
                   style={{

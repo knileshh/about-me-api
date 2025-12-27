@@ -48,22 +48,22 @@ export function FloatingNavbar() {
             <div className="absolute top-6 left-0 right-0 z-50 flex justify-center px-4">
                 <nav
                     className={cn(
-                        "flex items-center justify-between px-6 py-3 rounded-full transition-all duration-300 w-full max-w-2xl",
+                        "flex items-center justify-between px-8 py-4 rounded-full transition-all duration-300 w-full max-w-4xl",
                         "bg-background/80 backdrop-blur-md border border-border/50 shadow-lg"
                     )}
                 >
                     {/* Logo */}
-                    <Link href="/" className="font-serif font-bold text-lg tracking-tight hover:opacity-80 transition-opacity">
+                    <Link href="/" className="font-serif font-bold text-xl tracking-tight hover:opacity-80 transition-opacity">
                         About Me API
                     </Link>
 
                     {/* Links - Desktop */}
-                    <div className="hidden md:flex items-center gap-6">
+                    <div className="hidden md:flex items-center gap-8">
                         {navLinks.map((link) => (
                             <Link
                                 key={link.name}
                                 href={link.href}
-                                className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
+                                className="text-base font-medium text-muted-foreground hover:text-foreground transition-colors"
                             >
                                 {link.name}
                             </Link>
@@ -71,7 +71,7 @@ export function FloatingNavbar() {
                     </div>
 
                     {/* Actions */}
-                    <div className="flex items-center gap-2">
+                    <div className="flex items-center gap-4">
                         <ThemeSwitcher />
                         {isLoggedIn ? (
                             <Link href="/protected">
