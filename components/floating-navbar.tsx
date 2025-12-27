@@ -44,8 +44,8 @@ export function FloatingNavbar() {
 
     return (
         <>
-            {/* Main Navbar - Fixed at top, doesn't scroll with page */}
-            <div className="fixed top-6 left-0 right-0 z-50 flex justify-center px-4">
+            {/* Main Navbar - Static, scrolls with page */}
+            <div className="absolute top-6 left-0 right-0 z-50 flex justify-center px-4">
                 <nav
                     className={cn(
                         "flex items-center justify-between px-6 py-3 rounded-full transition-all duration-300 w-full max-w-2xl",
