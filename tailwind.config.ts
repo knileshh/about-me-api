@@ -61,14 +61,19 @@ export default {
         md: "calc(var(--radius) - 2px)",
         sm: "calc(var(--radius) - 4px)",
       },
-    },
-    animation: {
-      "grid-beam": "grid-beam 15s linear infinite",
-    },
-    keyframes: {
-      "grid-beam": {
-        "0%": { transform: "translateY(-100%)" },
-        "100%": { transform: "translateY(100%)" },
+      animation: {
+        "border-ray": "border-ray 3s linear infinite",
+        "arrow-bounce": "arrow-bounce 1s ease-in-out infinite",
+      },
+      keyframes: {
+        "border-ray": {
+          "0%": { transform: "rotate(0deg)" },
+          "100%": { transform: "rotate(360deg)" },
+        },
+        "arrow-bounce": {
+          "0%, 100%": { transform: "translateX(0)" },
+          "50%": { transform: "translateX(3px)" },
+        },
       },
     },
   },

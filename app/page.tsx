@@ -48,9 +48,18 @@ export default function Home() {
             className="w-full max-w-lg mx-auto z-20"
           >
             <div className="relative group">
+              {/* Animated Border Ray */}
+              <div className="absolute -inset-[2px] rounded-full overflow-hidden">
+                <div
+                  className="absolute inset-0 animate-border-ray"
+                  style={{
+                    background: "conic-gradient(from 0deg, transparent 0deg, rgba(20, 184, 166, 0.8) 60deg, rgba(6, 182, 212, 0.8) 120deg, transparent 180deg)",
+                  }}
+                />
+              </div>
               {/* Glow Effect */}
-              <div className="absolute -inset-1 bg-gradient-to-r from-teal-500/30 via-cyan-500/30 to-sky-500/30 rounded-full blur-md opacity-75 group-hover:opacity-100 transition-opacity duration-500" />
-              <div className="relative flex items-center bg-background/90 backdrop-blur-md border border-border/50 rounded-full p-1.5 pl-5 shadow-xl hover:border-primary/50 focus-within:border-primary/50 transition-all duration-300">
+              <div className="absolute -inset-2 bg-gradient-to-r from-teal-500/20 via-cyan-500/20 to-sky-500/20 rounded-full blur-xl opacity-60 group-hover:opacity-100 transition-opacity duration-500" />
+              <div className="relative flex items-center bg-background backdrop-blur-md border border-transparent rounded-full p-1.5 pl-5 shadow-2xl transition-all duration-300">
                 <span className="text-muted-foreground font-mono text-sm hidden sm:inline-block mr-1 whitespace-nowrap">
                   about-me.api/
                 </span>
@@ -64,10 +73,10 @@ export default function Home() {
                 />
                 <Button
                   type="submit"
-                  size="icon"
-                  className="rounded-full bg-primary text-primary-foreground hover:bg-primary/90 w-10 h-10 shrink-0 transition-transform active:scale-95 shadow-md"
+                  className="rounded-full bg-primary text-primary-foreground hover:bg-primary/90 px-5 h-10 shrink-0 transition-all active:scale-95 shadow-lg font-medium group/btn"
                 >
-                  <ArrowRight size={18} />
+                  <span className="mr-1">Go</span>
+                  <ArrowRight size={16} className="group-hover/btn:animate-arrow-bounce" />
                 </Button>
               </div>
             </div>
