@@ -75,7 +75,7 @@ export default function Home() {
                 <Button
                   type="submit"
                   size="icon"
-                  className="rounded-full bg-primary text-primary-foreground hover:bg-primary/90 w-10 h-10 shrink-0 transition-all active:scale-95 shadow-lg group/btn"
+                  className="rounded-full bg-primary text-primary-foreground hover:bg-primary/90 w-10 h-10 shrink-0 transition-all active:scale-95 shadow-lg group/btn animate-button-pop"
                 >
                   <ArrowRight size={18} className="group-hover/btn:translate-x-0.5 transition-transform" />
                 </Button>

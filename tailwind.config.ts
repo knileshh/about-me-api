@@ -64,7 +64,8 @@ export default {
       animation: {
         "border-ray": "border-ray 3s linear infinite",
         "arrow-bounce": "arrow-bounce 1s ease-in-out infinite",
-        "shimmer": "shimmer 2.5s linear infinite",
+        "shimmer": "shimmer 4s linear infinite",
+        "button-pop": "button-pop 4s linear infinite",
       },
       keyframes: {
         "border-ray": {
@@ -78,6 +79,12 @@ export default {
         "shimmer": {
           "0%": { backgroundPosition: "0% 50%" },
           "100%": { backgroundPosition: "200% 50%" },
+        },
+        "button-pop": {
+          "0%, 85%": { transform: "scale(1)" },
+          "90%": { transform: "scale(1.1)" },
+          "95%": { transform: "scale(0.95)" },
+          "100%": { transform: "scale(1)" },
         },
       },
     },
