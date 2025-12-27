@@ -15,8 +15,8 @@ export function GridBackground({ children, className }: GridBackgroundProps) {
                 className="fixed inset-0 z-0 pointer-events-none"
                 style={{
                     backgroundImage: `
-                        linear-gradient(to right, rgba(100, 100, 100, 0.1) 1px, transparent 1px),
-                        linear-gradient(to bottom, rgba(100, 100, 100, 0.1) 1px, transparent 1px)
+                        linear-gradient(to right, rgba(var(--grid-color), 0.1) 1px, transparent 1px),
+                        linear-gradient(to bottom, rgba(var(--grid-color), 0.1) 1px, transparent 1px)
                     `,
                     backgroundSize: '48px 48px',
                     maskImage: 'radial-gradient(ellipse at center, black 50%, transparent 100%)'

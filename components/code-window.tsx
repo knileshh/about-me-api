@@ -87,7 +87,7 @@ export function CodeWindow({ className }: CodeWindowProps) {
                 {/* Content */}
                 <div className="p-6 font-mono text-sm overflow-x-auto bg-zinc-50 dark:bg-transparent rounded-b-2xl">
                     {/* Command */}
-                    <div className="flex items-center gap-2 text-zinc-700 dark:text-zinc-300 mb-6">
+                    <div className="flex items-center gap-2 text-zinc-700 dark:text-zinc-300 mb-6 whitespace-nowrap min-w-max">
                         <span className="text-emerald-600 dark:text-green-500">$</span>
                         <span className="text-zinc-500">curl</span>
                         <span className="text-sky-600 dark:text-blue-400">https://about-me-api.xyz/api/knileshh</span>
