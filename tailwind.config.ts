@@ -64,6 +64,7 @@ export default {
       animation: {
         "border-ray": "border-ray 3s linear infinite",
         "arrow-bounce": "arrow-bounce 1s ease-in-out infinite",
+        "shimmer": "shimmer 2.5s linear infinite",
       },
       keyframes: {
         "border-ray": {
@@ -73,6 +74,10 @@ export default {
         "arrow-bounce": {
           "0%, 100%": { transform: "translateX(0)" },
           "50%": { transform: "translateX(3px)" },
+        },
+        "shimmer": {
+          "0%": { backgroundPosition: "0% 50%" },
+          "100%": { backgroundPosition: "200% 50%" },
         },
       },
     },
