@@ -147,7 +147,7 @@ async function DashboardContent() {
                 <CopyButton text={getApiUrl(profile.username)} />
               </div>
               <div className="flex gap-2 mt-4">
-                <Link href={`/u/${profile.username}`}>
+                <Link href={`/${profile.username}`}>
                   <Button variant="outline" size="sm">
                     View Profile
                   </Button>

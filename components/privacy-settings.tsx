@@ -182,7 +182,7 @@ export function PrivacySettings({ profileId, isPublic: initialIsPublic, apiKey: 
                             <p className="text-xs text-muted-foreground mb-2">Usage example:</p>
                             <code className="text-xs">
                                 curl -H "Authorization: Bearer {showApiKey ? apiKey : '<api_key>'}" \<br />
-                                &nbsp;&nbsp;{getSiteUrl()}/api/u/username
+                                &nbsp;&nbsp;{getSiteUrl()}/api/username
                             </code>
                         </div>
                     )}

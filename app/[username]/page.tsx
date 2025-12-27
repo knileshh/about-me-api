@@ -5,9 +5,16 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import { ThemeSwitcher } from "@/components/theme-switcher";
 import { ProfileData } from "@/types/profile";
+import { getApiUrl } from "@/lib/config";
 
 // Disable prerendering - this page uses auth data to check ownership
 export const dynamic = 'force-dynamic';
+
+// Reserved paths that should NOT be treated as usernames
+const RESERVED_PATHS = [
+    'about', 'api', 'auth', 'blog', 'builder', 'privacy', 'protected', 'terms',
+    'login', 'signup', 'register', 'admin', 'dashboard', 'settings', 'help'
+];
 
 interface PageProps {
     params: Promise<{ username: string }>;
@@ -15,6 +22,12 @@ interface PageProps {
 
 export async function generateMetadata({ params }: PageProps) {
     const { username } = await params;
+
+    // Don't generate metadata for reserved paths
+    if (RESERVED_PATHS.includes(username.toLowerCase())) {
+        return { title: "Page Not Found | About Me API" };
+    }
+
     const supabase = await createClient();
 
     const { data: profile } = await supabase
@@ -41,6 +54,12 @@ export async function generateMetadata({ params }: PageProps) {
 
 export default async function ProfilePage({ params }: PageProps) {
     const { username } = await params;
+
+    // Check if this is a reserved path - let Next.js handle 404
+    if (RESERVED_PATHS.includes(username.toLowerCase())) {
+        notFound();
+    }
+
     const supabase = await createClient();
 
     // Check if current user is logged in and get their profile info
@@ -94,7 +113,7 @@ export default async function ProfilePage({ params }: PageProps) {
     supabase.from("api_logs").insert({
         profile_id: profile.id,
         username: profile.username,
-        endpoint: `/u/${username}`,
+        endpoint: `/${username}`,
     });
 
     const data = profile.profile_data as ProfileData;
@@ -166,7 +185,7 @@ export default async function ProfilePage({ params }: PageProps) {
                         {/* Roles */}
                         {data.career?.primary_roles && data.career.primary_roles.length > 0 && (
                             <div className="flex flex-wrap justify-center gap-2">
-                                {data.career.primary_roles.map((role) => (
+                                {data.career.primary_roles.map((role: string) => (
                                     <Badge key={role} variant="secondary">
                                         {role}
                                     </Badge>
@@ -188,7 +207,7 @@ export default async function ProfilePage({ params }: PageProps) {
                             <div>
                                 <h3 className="text-sm font-medium text-center mb-3">Tech Focus</h3>
                                 <div className="flex flex-wrap justify-center gap-2">
-                                    {data.job_preferences.tech_focus.map((tech) => (
+                                    {data.job_preferences.tech_focus.map((tech: string) => (
                                         <Badge key={tech} variant="outline">
                                             {tech}
                                         </Badge>
@@ -263,7 +282,7 @@ export default async function ProfilePage({ params }: PageProps) {
                         Get this profile as JSON:
                     </p>
                     <code className="text-xs bg-muted px-3 py-1 rounded">
-                        curl https://aboutme.knileshh.com/api/u/{profile.username}
+                        curl {getApiUrl(profile.username)}
                     </code>
                 </div>
             </div>

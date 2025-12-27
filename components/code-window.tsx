@@ -90,7 +90,7 @@ export function CodeWindow({ className }: CodeWindowProps) {
                     <div className="flex items-center gap-2 text-zinc-700 dark:text-zinc-300 mb-6">
                         <span className="text-emerald-600 dark:text-green-500">$</span>
                         <span className="text-zinc-500">curl</span>
-                        <span className="text-sky-600 dark:text-blue-400">https://about-me-api.xyz/api/u/knileshh</span>
+                        <span className="text-sky-600 dark:text-blue-400">https://about-me-api.xyz/api/knileshh</span>
                     </div>
 
                     {/* Beautified JSON Response */}

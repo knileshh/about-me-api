@@ -6,11 +6,11 @@ export const siteConfig = {
 } as const;
 
 export function getApiUrl(username: string): string {
-    return `${siteConfig.url}/api/u/${username}`;
+    return `${siteConfig.url}/api/${username}`;
 }
 
 export function getProfileUrl(username: string): string {
-    return `${siteConfig.url}/u/${username}`;
+    return `${siteConfig.url}/${username}`;
 }
 
 export function getSiteUrl(): string {

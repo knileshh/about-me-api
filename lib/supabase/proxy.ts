@@ -48,13 +48,13 @@ export async function updateSession(request: NextRequest) {
   const user = data?.claims;
 
   // Public routes that don't require authentication
+  // Note: Dynamic [username] routes are handled separately with reserved path checking
   const isPublicRoute =
     request.nextUrl.pathname === "/" ||
     request.nextUrl.pathname.startsWith("/auth") ||
     request.nextUrl.pathname.startsWith("/login") ||
     request.nextUrl.pathname.startsWith("/builder") ||  // Profile builder (progressive flow)
-    request.nextUrl.pathname.startsWith("/u/") ||       // Public profiles
-    request.nextUrl.pathname.startsWith("/api/u/") ||   // Public API endpoints
+    request.nextUrl.pathname.startsWith("/api/") ||     // All API endpoints
     request.nextUrl.pathname.startsWith("/about") ||    // SEO pages
     request.nextUrl.pathname.startsWith("/blog") ||
     request.nextUrl.pathname.startsWith("/privacy") ||

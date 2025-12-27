@@ -80,7 +80,7 @@ export function UserMenu({ email, hasProfile, username }: UserMenuProps) {
                         <div className="p-1">
                             {hasProfile && username && (
                                 <Link
-                                    href={`/u/${username}`}
+                                    href={`/${username}`}
                                     className="flex items-center gap-2 w-full px-3 py-2 text-sm hover:bg-muted rounded-sm transition-colors"
                                     onClick={() => setIsOpen(false)}
                                 >

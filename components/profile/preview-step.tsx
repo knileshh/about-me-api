@@ -115,7 +115,7 @@ export function PreviewStep({ data, username, onUsernameChange, isUsernameLocked
                 {isUsernameLocked ? (
                     <div className="space-y-1">
                         <div className="flex items-center gap-2 p-3 bg-muted/50 rounded-md border border-muted">
-                            <span className="text-muted-foreground text-sm">aboutme.knileshh.com/u/</span>
+                            <span className="text-muted-foreground text-sm">about-me-api.xyz/</span>
                             <span className="text-muted-foreground">{username}</span>
                         </div>
                         <p className="text-xs text-muted-foreground">
@@ -127,11 +127,11 @@ export function PreviewStep({ data, username, onUsernameChange, isUsernameLocked
                         <div className="flex gap-2">
                             <div className="relative flex-1">
                                 <span className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground text-sm">
-                                    aboutme.knileshh.com/u/
+                                    about-me-api.xyz/
                                 </span>
                                 <Input
                                     id="username"
-                                    className="pl-[180px]"
+                                    className="pl-[140px]"
                                     placeholder="nilesh"
                                     value={username}
                                     onChange={(e) => {
@@ -220,7 +220,7 @@ export function PreviewStep({ data, username, onUsernameChange, isUsernameLocked
                     <CardContent className="pt-4 font-mono text-sm">
                         <p className="text-zinc-500"># Fetch your profile</p>
                         <p>
-                            curl https://aboutme.knileshh.com/u/
+                            curl https://about-me-api.xyz/api/
                             <span className="text-green-400">{username || "username"}</span>
                         </p>
                     </CardContent>

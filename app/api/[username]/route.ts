@@ -98,7 +98,7 @@ export async function GET(request: NextRequest, { params }: RouteParams) {
     supabase.from("api_logs").insert({
         profile_id: profile.id,
         username: profile.username,
-        endpoint: `/api/u/${username}`,
+        endpoint: `/api/${username}`,
         caller_ip: callerIp,
         user_agent: userAgent,
         referer: referer,

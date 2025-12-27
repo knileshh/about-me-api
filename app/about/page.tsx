@@ -67,7 +67,7 @@ export default function AboutPage() {
                         <ol className="space-y-4 text-muted-foreground list-decimal list-inside">
                             <li>Create your profile using our simple wizard</li>
                             <li>Choose a unique username</li>
-                            <li>Get your personal API URL (e.g., aboutme.knileshh.com/api/u/yourname)</li>
+                            <li>Get your personal API URL (e.g., about-me-api.xyz/api/yourname)</li>
                             <li>Share it with AI tools, add it to your resume, or embed it in your portfolio</li>
                         </ol>
                     </section>
