@@ -84,7 +84,7 @@ export function CodeWindow({ className }: CodeWindowProps) {
             {/* Window Container */}
             <div className="relative rounded-2xl overflow-hidden bg-zinc-900 dark:bg-[#0D0D0D] border border-zinc-200 dark:border-white/10 shadow-2xl transition-all duration-500 hover:shadow-primary/10 hover:border-zinc-300 dark:hover:border-white/20">
                 {/* Title Bar */}
-                <div className="flex items-center justify-between px-4 py-3 bg-zinc-100 dark:bg-white/5 border-b border-zinc-200 dark:border-white/5">
+                <div className="flex items-center justify-between px-4 py-3 bg-zinc-100 dark:bg-white/5 border-b border-zinc-200 dark:border-white/5 rounded-t-2xl">
                     <div className="flex items-center gap-2">
                         <div className="w-3 h-3 rounded-full bg-red-500/80" />
                         <div className="w-3 h-3 rounded-full bg-yellow-500/80" />
