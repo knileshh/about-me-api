@@ -8,24 +8,39 @@ import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import { createClient } from "@/lib/supabase/client";
 import { useRouter } from "next/navigation";
+import {
+    Dialog,
+    DialogContent,
+    DialogDescription,
+    DialogFooter,
+    DialogHeader,
+    DialogTitle,
+} from "@/components/ui/dialog";
+import { Pencil, Check, X } from "lucide-react";
 
 interface PreviewStepProps {
     data: ProfileData;
     username: string;
     onUsernameChange: (username: string) => void;
     isUsernameLocked?: boolean;
+    showUsernameEditDialog?: boolean;
 }
 
-export function PreviewStep({ data, username, onUsernameChange, isUsernameLocked }: PreviewStepProps) {
+export function PreviewStep({ data, username, onUsernameChange, isUsernameLocked, showUsernameEditDialog }: PreviewStepProps) {
     const [isChecking, setIsChecking] = useState(false);
-    const [isAvailable, setIsAvailable] = useState<boolean | null>(null);
+    const [isAvailable, setIsAvailable] = useState<boolean | null>(showUsernameEditDialog ? true : null);
     const [isSaving, setIsSaving] = useState(false);
     const [error, setError] = useState<string | null>(null);
+    const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
+    const [tempUsername, setTempUsername] = useState(username);
+    const [dialogCheckResult, setDialogCheckResult] = useState<boolean | null>(null);
+    const [isDialogChecking, setIsDialogChecking] = useState(false);
     const router = useRouter();
     const supabase = createClient();
 
-    const checkUsername = async () => {
-        if (!username.trim()) return;
+    const checkUsername = async (usernameToCheck?: string) => {
+        const nameToCheck = usernameToCheck || username;
+        if (!nameToCheck.trim()) return;
 
         setIsChecking(true);
         setError(null);
@@ -34,15 +49,51 @@ export function PreviewStep({ data, username, onUsernameChange, isUsernameLocked
             const { data: existing } = await supabase
                 .from("profiles")
                 .select("username")
-                .eq("username", username.toLowerCase())
+                .eq("username", nameToCheck.toLowerCase())
                 .single();
 
             setIsAvailable(!existing);
+            return !existing;
         } catch {
             setIsAvailable(true); // No match found = available
+            return true;
         } finally {
             setIsChecking(false);
         }
+    };
+
+    const checkDialogUsername = async () => {
+        if (!tempUsername.trim()) return;
+
+        setIsDialogChecking(true);
+
+        try {
+            const { data: existing } = await supabase
+                .from("profiles")
+                .select("username")
+                .eq("username", tempUsername.toLowerCase())
+                .single();
+
+            setDialogCheckResult(!existing);
+        } catch {
+            setDialogCheckResult(true);
+        } finally {
+            setIsDialogChecking(false);
+        }
+    };
+
+    const handleDialogConfirm = () => {
+        if (dialogCheckResult) {
+            onUsernameChange(tempUsername);
+            setIsAvailable(true);
+            setIsEditDialogOpen(false);
+        }
+    };
+
+    const handleDialogOpen = () => {
+        setTempUsername(username);
+        setDialogCheckResult(null);
+        setIsEditDialogOpen(true);
     };
 
     const handleSave = async () => {
@@ -110,17 +161,36 @@ export function PreviewStep({ data, username, onUsernameChange, isUsernameLocked
             {/* Username */}
             <div className="space-y-2">
                 <Label htmlFor="username">
-                    {isUsernameLocked ? "Your username" : "Choose your username *"}
+                    {isUsernameLocked ? "Your username" : showUsernameEditDialog ? "Your username" : "Choose your username *"}
                 </Label>
-                {isUsernameLocked ? (
+                {(isUsernameLocked || showUsernameEditDialog) ? (
                     <div className="space-y-1">
                         <div className="flex items-center gap-2 p-3 bg-muted/50 rounded-md border border-muted">
                             <span className="text-muted-foreground text-sm">about-me-api.xyz/</span>
-                            <span className="text-muted-foreground">{username}</span>
+                            <span className="font-medium">{username}</span>
+                            {showUsernameEditDialog && (
+                                <Button
+                                    type="button"
+                                    variant="ghost"
+                                    size="sm"
+                                    className="ml-auto h-7 px-2"
+                                    onClick={handleDialogOpen}
+                                >
+                                    <Pencil className="h-3.5 w-3.5 mr-1" />
+                                    Edit
+                                </Button>
+                            )}
                         </div>
-                        <p className="text-xs text-muted-foreground">
-                            Username cannot be changed after profile creation.
-                        </p>
+                        {showUsernameEditDialog && isAvailable && (
+                            <p className="text-sm text-green-600 flex items-center gap-1">
+                                <Check className="h-4 w-4" /> Username confirmed & available
+                            </p>
+                        )}
+                        {!showUsernameEditDialog && (
+                            <p className="text-xs text-muted-foreground">
+                                Username cannot be changed after profile creation.
+                            </p>
+                        )}
                     </div>
                 ) : (
                     <>
@@ -144,7 +214,7 @@ export function PreviewStep({ data, username, onUsernameChange, isUsernameLocked
                             <Button
                                 type="button"
                                 variant="outline"
-                                onClick={checkUsername}
+                                onClick={() => checkUsername()}
                                 disabled={isChecking || !username.trim()}
                             >
                                 {isChecking ? "Checking..." : "Check"}
@@ -243,6 +313,73 @@ export function PreviewStep({ data, username, onUsernameChange, isUsernameLocked
             >
                 {isSaving ? "Saving..." : "Save Profile & Get Your URL"}
             </Button>
+
+            {/* Username Edit Dialog */}
+            <Dialog open={isEditDialogOpen} onOpenChange={setIsEditDialogOpen}>
+                <DialogContent>
+                    <DialogHeader>
+                        <DialogTitle>Edit Username</DialogTitle>
+                        <DialogDescription>
+                            Choose a different username for your profile. This cannot be changed after creation.
+                        </DialogDescription>
+                    </DialogHeader>
+                    <div className="space-y-4 py-4">
+                        <div className="space-y-2">
+                            <Label htmlFor="newUsername">Username</Label>
+                            <div className="flex gap-2">
+                                <div className="relative flex-1">
+                                    <span className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground text-sm">
+                                        about-me-api.xyz/
+                                    </span>
+                                    <Input
+                                        id="newUsername"
+                                        className="pl-[140px]"
+                                        placeholder="username"
+                                        value={tempUsername}
+                                        onChange={(e) => {
+                                            const value = e.target.value.toLowerCase().replace(/[^a-z0-9_-]/g, "");
+                                            setTempUsername(value);
+                                            setDialogCheckResult(null);
+                                        }}
+                                    />
+                                </div>
+                                <Button
+                                    type="button"
+                                    variant="outline"
+                                    onClick={checkDialogUsername}
+                                    disabled={isDialogChecking || !tempUsername.trim()}
+                                >
+                                    {isDialogChecking ? "Checking..." : "Check"}
+                                </Button>
+                            </div>
+                            {dialogCheckResult === true && (
+                                <p className="text-sm text-green-600 flex items-center gap-1">
+                                    <Check className="h-4 w-4" /> Username is available!
+                                </p>
+                            )}
+                            {dialogCheckResult === false && (
+                                <p className="text-sm text-red-600 flex items-center gap-1">
+                                    <X className="h-4 w-4" /> Username is taken
+                                </p>
+                            )}
+                        </div>
+                    </div>
+                    <DialogFooter>
+                        <Button
+                            variant="outline"
+                            onClick={() => setIsEditDialogOpen(false)}
+                        >
+                            Cancel
+                        </Button>
+                        <Button
+                            onClick={handleDialogConfirm}
+                            disabled={!dialogCheckResult || tempUsername === username}
+                        >
+                            Confirm Username
+                        </Button>
+                    </DialogFooter>
+                </DialogContent>
+            </Dialog>
         </div>
     );
 }

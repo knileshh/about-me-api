@@ -1,9 +1,9 @@
 import { ProfileWizard } from "@/components/profile/profile-wizard";
 import { ThemeSwitcher } from "@/components/theme-switcher";
 import { createClient } from "@/lib/supabase/server";
-import { ProfileData } from "@/types/profile";
 import Link from "next/link";
 import { redirect } from "next/navigation";
+import { BuilderClient } from "./builder-client";
 
 // Disable prerendering - this page uses auth data
 export const dynamic = 'force-dynamic';
@@ -13,14 +13,18 @@ export const metadata = {
     description: "Build your personal API endpoint in minutes",
 };
 
-export default async function BuilderPage() {
+interface PageProps {
+    searchParams: Promise<{ username?: string }>;
+}
+
+export default async function BuilderPage({ searchParams }: PageProps) {
+    const params = await searchParams;
     const supabase = await createClient();
     const { data: authData } = await supabase.auth.getClaims();
     const isLoggedIn = !!authData?.claims;
 
     // Check if user already has a profile
     let existingUsername: string | null = null;
-    let existingProfileData: ProfileData | null = null;
 
     if (isLoggedIn && authData?.claims?.sub) {
         const { data: profile } = await supabase
@@ -71,9 +75,9 @@ export default async function BuilderPage() {
                     </p>
                 </div>
 
-                <ProfileWizard
+                <BuilderClient
                     existingUsername={existingUsername}
-                    existingProfileData={existingProfileData}
+                    existingProfileData={null}
                 />
             </div>
 

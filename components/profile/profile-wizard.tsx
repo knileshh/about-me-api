@@ -22,9 +22,10 @@ const STORAGE_KEY = "aboutme_draft_profile";
 interface ProfileWizardProps {
     existingUsername?: string | null;
     existingProfileData?: ProfileData | null;
+    usernameFromUrl?: boolean;
 }
 
-export function ProfileWizard({ existingUsername, existingProfileData }: ProfileWizardProps) {
+export function ProfileWizard({ existingUsername, existingProfileData, usernameFromUrl }: ProfileWizardProps) {
     const [currentStepIndex, setCurrentStepIndex] = useState(0);
     const [profileData, setProfileData] = useState<ProfileData>(existingProfileData || {});
     const [username, setUsername] = useState(existingUsername || "");
@@ -118,7 +119,8 @@ export function ProfileWizard({ existingUsername, existingProfileData }: Profile
                         data={profileData}
                         username={username}
                         onUsernameChange={setUsername}
-                        isUsernameLocked={!!existingUsername}
+                        isUsernameLocked={!!existingUsername && !usernameFromUrl}
+                        showUsernameEditDialog={!!usernameFromUrl}
                     />
                 );
             default:
