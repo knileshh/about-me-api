@@ -58,7 +58,7 @@ In this AI era, you constantly need to provide context about yourself:
 
 ```bash
 # Get public profile
-curl https://aboutme.knileshh.com/u/nilesh
+curl https://about-me-api.xyz/api/nilesh
 
 # Response
 {
@@ -73,7 +73,7 @@ curl https://aboutme.knileshh.com/u/nilesh
     }
   },
   "assets": {
-    "avatar": "https://aboutme.knileshh.com/u/nilesh/avatar"
+    "avatar": "https://about-me-api.xyz/nilesh/avatar"
   }
 }
 ```
