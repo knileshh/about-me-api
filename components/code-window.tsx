@@ -33,56 +33,47 @@ export function CodeWindow({ className }: CodeWindowProps) {
         }
     };
 
-    const renderValue = (value: unknown, indent: number = 0): React.ReactNode => {
-        const spacing = "  ".repeat(indent);
+    // Simple JSON syntax highlighting using JSON.stringify
+    const highlightJSON = (json: string): React.ReactNode[] => {
+        return json.split('\n').map((line, i) => {
+            // Highlight keys (quoted strings followed by :)
+            const highlightedLine = line
+                .replace(/"([^"]+)":/g, '<key>"$1"</key>:')
+                .replace(/: "([^"]*)"/g, ': <str>"$1"</str>')
+                .replace(/: (true|false)/g, ': <bool>$1</bool>')
+                .replace(/: (\d+)/g, ': <num>$1</num>');
 
-        if (typeof value === "string") {
-            return <span className="text-emerald-400">"{value}"</span>;
-        }
-        if (typeof value === "boolean") {
-            return <span className="text-amber-400">{value.toString()}</span>;
-        }
-        if (typeof value === "number") {
-            return <span className="text-amber-400">{value}</span>;
-        }
-        if (Array.isArray(value)) {
+            // Parse the custom tags into React elements
+            const parts = highlightedLine.split(/(<key>.*?<\/key>|<str>.*?<\/str>|<bool>.*?<\/bool>|<num>.*?<\/num>)/);
+
             return (
-                <span>
-                    {"[\n"}
-                    {value.map((item, i) => (
-                        <span key={i}>
-                            {spacing}    {renderValue(item, indent + 1)}
-                            {i < value.length - 1 ? ",\n" : "\n"}
-                        </span>
-                    ))}
-                    {spacing}  {"]"}
-                </span>
+                <div key={i} className="whitespace-pre">
+                    {parts.map((part, j) => {
+                        if (part.startsWith('<key>')) {
+                            return <span key={j} className="text-sky-500 dark:text-sky-400">{part.replace(/<\/?key>/g, '')}</span>;
+                        }
+                        if (part.startsWith('<str>')) {
+                            return <span key={j} className="text-emerald-600 dark:text-emerald-400">{part.replace(/<\/?str>/g, '')}</span>;
+                        }
+                        if (part.startsWith('<bool>')) {
+                            return <span key={j} className="text-amber-600 dark:text-amber-400">{part.replace(/<\/?bool>/g, '')}</span>;
+                        }
+                        if (part.startsWith('<num>')) {
+                            return <span key={j} className="text-amber-600 dark:text-amber-400">{part.replace(/<\/?num>/g, '')}</span>;
+                        }
+                        return <span key={j} className="text-zinc-600 dark:text-zinc-300">{part}</span>;
+                    })}
+                </div>
             );
-        }
-        if (typeof value === "object" && value !== null) {
-            const entries = Object.entries(value);
-            return (
-                <span>
-                    {"{\n"}
-                    {entries.map(([key, val], i) => (
-                        <span key={key}>
-                            {spacing}    <span className="text-sky-400">"{key}"</span>
-                            <span className="text-zinc-400">: </span>
-                            {renderValue(val, indent + 1)}
-                            {i < entries.length - 1 ? ",\n" : "\n"}
-                        </span>
-                    ))}
-                    {spacing}  {"}"}
-                </span>
-            );
-        }
-        return <span className="text-zinc-400">null</span>;
+        });
     };
+
+    const formattedJSON = JSON.stringify(jsonData, null, 2);
 
     return (
         <div className={cn("relative group", className)}>
             {/* Window Container */}
-            <div className="relative rounded-2xl overflow-hidden bg-zinc-900 dark:bg-[#0D0D0D] border border-zinc-200 dark:border-white/10 shadow-2xl transition-all duration-500 hover:shadow-primary/10 hover:border-zinc-300 dark:hover:border-white/20">
+            <div className="relative rounded-2xl overflow-hidden bg-zinc-100 dark:bg-[#0D0D0D] border border-zinc-200 dark:border-white/10 shadow-2xl transition-all duration-500 hover:shadow-primary/10 hover:border-zinc-300 dark:hover:border-white/20">
                 {/* Title Bar */}
                 <div className="flex items-center justify-between px-4 py-3 bg-zinc-100 dark:bg-white/5 border-b border-zinc-200 dark:border-white/5 rounded-t-2xl">
                     <div className="flex items-center gap-2">
@@ -94,7 +85,7 @@ export function CodeWindow({ className }: CodeWindowProps) {
                 </div>
 
                 {/* Content */}
-                <div className="p-6 font-mono text-sm overflow-x-auto bg-zinc-50 dark:bg-transparent">
+                <div className="p-6 font-mono text-sm overflow-x-auto bg-zinc-50 dark:bg-transparent rounded-b-2xl">
                     {/* Command */}
                     <div className="flex items-center gap-2 text-zinc-700 dark:text-zinc-300 mb-6">
                         <span className="text-emerald-600 dark:text-green-500">$</span>
@@ -103,9 +94,9 @@ export function CodeWindow({ className }: CodeWindowProps) {
                     </div>
 
                     {/* Beautified JSON Response */}
-                    <pre className="text-xs md:text-sm leading-relaxed whitespace-pre-wrap text-zinc-800 dark:text-zinc-200">
-                        {mounted ? renderValue(jsonData) : JSON.stringify(jsonData, null, 2)}
-                    </pre>
+                    <div className="text-xs md:text-sm leading-relaxed text-left">
+                        {mounted ? highlightJSON(formattedJSON) : <pre>{formattedJSON}</pre>}
+                    </div>
                 </div>
             </div>
 

@@ -31,7 +31,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={`${inter.variable} ${playfair.variable} font-sans antialiased text-foreground bg-background selection:bg-primary/20`}>
+      <body className={`${inter.variable} ${playfair.variable} font-sans antialiased text-foreground bg-background selection:bg-primary/20`} suppressHydrationWarning>
         <ThemeProvider
           attribute="class"
           defaultTheme="system"

@@ -47,32 +47,36 @@ export default function Home() {
             onSubmit={handleClaim}
             className="w-full max-w-lg mx-auto z-20"
           >
-            <div className="flex items-center bg-background/80 backdrop-blur-md border border-border/50 rounded-full p-1.5 pl-5 shadow-2xl hover:border-primary/50 focus-within:border-primary/50 transition-all duration-300">
-              <span className="text-muted-foreground font-mono text-sm hidden sm:inline-block mr-1 whitespace-nowrap">
-                about-me.api/
-              </span>
-              <input
-                type="text"
-                placeholder="username"
-                className="flex-1 bg-transparent border-none text-foreground placeholder:text-muted-foreground/50 focus:ring-0 focus:outline-none text-base font-medium min-w-0"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
-                aria-label="Username"
-              />
-              <Button
-                type="submit"
-                size="icon"
-                className="rounded-full bg-primary text-primary-foreground hover:bg-primary/90 w-10 h-10 shrink-0 transition-transform active:scale-95 shadow-md"
-              >
-                <ArrowRight size={18} />
-              </Button>
+            <div className="relative group">
+              {/* Glow Effect */}
+              <div className="absolute -inset-1 bg-gradient-to-r from-teal-500/30 via-cyan-500/30 to-sky-500/30 rounded-full blur-md opacity-75 group-hover:opacity-100 transition-opacity duration-500" />
+              <div className="relative flex items-center bg-background/90 backdrop-blur-md border border-border/50 rounded-full p-1.5 pl-5 shadow-xl hover:border-primary/50 focus-within:border-primary/50 transition-all duration-300">
+                <span className="text-muted-foreground font-mono text-sm hidden sm:inline-block mr-1 whitespace-nowrap">
+                  about-me.api/
+                </span>
+                <input
+                  type="text"
+                  placeholder="username"
+                  className="flex-1 bg-transparent border-none text-foreground placeholder:text-muted-foreground/50 focus:ring-0 focus:outline-none text-base font-medium min-w-0"
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
+                  aria-label="Username"
+                />
+                <Button
+                  type="submit"
+                  size="icon"
+                  className="rounded-full bg-primary text-primary-foreground hover:bg-primary/90 w-10 h-10 shrink-0 transition-transform active:scale-95 shadow-md"
+                >
+                  <ArrowRight size={18} />
+                </Button>
+              </div>
             </div>
           </form>
 
           {/* Code Demo */}
           <div className="w-full max-w-4xl mt-6 z-10">
             <div className="transform hover:scale-[1.01] transition-transform duration-500 ease-out">
-              <CodeWindow className="shadow-2xl border border-white/10 bg-[#0a0a0a]" />
+              <CodeWindow />
             </div>
           </div>
         </div>
