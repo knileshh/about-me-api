@@ -1,6 +1,6 @@
 // Site configuration - uses environment variable or falls back to default
 export const siteConfig = {
-    url: process.env.NEXT_PUBLIC_SITE_URL || "https://aboutme.knileshh.com",
+    url: process.env.NEXT_PUBLIC_SITE_URL || "https://about-me-api.xyz",
     name: "About Me API",
     description: "Your identity, one API call away",
 } as const;

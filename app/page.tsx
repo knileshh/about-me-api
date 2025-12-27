@@ -76,7 +76,7 @@ export default function Home() {
           {/* Input Form */}
           <form
             onSubmit={handleClaim}
-            className="w-full max-w-md mx-auto z-20"
+            className="w-full max-w-md mx-auto z-20 relative"
           >
             <div className="relative group">
               {/* Animated Border Ray - Linear Shimmer */}
@@ -84,7 +84,7 @@ export default function Home() {
                 <div
                   className="absolute inset-0 animate-shimmer"
                   style={{
-                    background: isAvailable === false
+                    backgroundImage: isAvailable === false
                       ? "linear-gradient(90deg, transparent, rgba(239, 68, 68, 0.5), rgba(220, 38, 38, 1), rgba(239, 68, 68, 0.5), transparent)"
                       : isAvailable === true
                         ? "linear-gradient(90deg, transparent, rgba(34, 197, 94, 0.5), rgba(22, 163, 74, 1), rgba(34, 197, 94, 0.5), transparent)"
@@ -95,14 +95,14 @@ export default function Home() {
               </div>
               {/* Glow Effect */}
               <div className={`absolute -inset-2 rounded-full blur-xl opacity-50 group-hover:opacity-80 transition-opacity duration-500 ${isAvailable === false
-                  ? "bg-gradient-to-r from-red-500/15 via-red-500/15 to-red-500/15"
-                  : isAvailable === true
-                    ? "bg-gradient-to-r from-green-500/15 via-green-500/15 to-green-500/15"
-                    : "bg-gradient-to-r from-teal-500/15 via-cyan-500/15 to-sky-500/15"
+                ? "bg-gradient-to-r from-red-500/15 via-red-500/15 to-red-500/15"
+                : isAvailable === true
+                  ? "bg-gradient-to-r from-green-500/15 via-green-500/15 to-green-500/15"
+                  : "bg-gradient-to-r from-teal-500/15 via-cyan-500/15 to-sky-500/15"
                 }`} />
               <div className="relative flex items-center bg-background backdrop-blur-md border border-transparent rounded-full p-1.5 pl-5 shadow-2xl transition-all duration-300">
                 <span className="text-muted-foreground font-mono text-sm hidden sm:inline-block mr-1 whitespace-nowrap">
-                  about-me-api.com/
+                  about-me-api.xyz/
                 </span>
                 <input
                   type="text"
@@ -128,9 +128,9 @@ export default function Home() {
                   type="submit"
                   size="icon"
                   disabled={!canSubmit}
-                  className={`rounded-full w-10 h-10 shrink-0 transition-all active:scale-95 shadow-lg group/btn ${canSubmit
-                      ? "bg-primary text-primary-foreground hover:bg-primary/90"
-                      : "bg-muted text-muted-foreground cursor-not-allowed"
+                  className={`rounded-full w-10 h-10 shrink-0 transition-all active:scale-95 shadow-lg ${canSubmit
+                    ? "bg-primary text-primary-foreground hover:bg-primary/90"
+                    : "bg-muted text-muted-foreground cursor-not-allowed"
                     }`}
                 >
                   {isSubmitting ? (
@@ -140,6 +140,17 @@ export default function Home() {
                   )}
                 </Button>
               </div>
+            </div>
+            {/* Availability Status Badge - Absolute positioned */}
+            <div className="absolute -bottom-7 left-1/2 -translate-x-1/2 whitespace-nowrap pointer-events-none">
+              {username.trim().length >= 3 && !isChecking && isAvailable !== null && (
+                <span className={`text-xs font-medium px-3 py-1 rounded-full ${isAvailable
+                  ? "text-green-600 bg-green-500/10"
+                  : "text-red-600 bg-red-500/10"
+                  }`}>
+                  {isAvailable ? "✓ Available" : "✗ Taken"}
+                </span>
+              )}
             </div>
           </form>
 
