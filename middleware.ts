@@ -88,17 +88,11 @@ export function middleware(request: NextRequest) {
 }
 
 // Configure which paths the middleware runs on
+// ONLY rate limit API paths, not regular pages
 export const config = {
     matcher: [
-        // Apply to all API routes
+        // Apply to API routes only
         '/api/:path*',
-        // Apply to auth routes
-        '/auth/:path*',
-        // Apply to protected routes
-        '/protected/:path*',
-        // Apply to builder
-        '/builder/:path*',
-        // Exclude static files and images
-        '/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)',
     ],
 };
+
