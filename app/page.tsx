@@ -15,6 +15,7 @@ export default function Home() {
   const [isChecking, setIsChecking] = useState(false);
   const [isAvailable, setIsAvailable] = useState<boolean | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isFocused, setIsFocused] = useState(false);
 
   // Debounced username check
   useEffect(() => {
@@ -101,7 +102,7 @@ export default function Home() {
                   : "bg-gradient-to-r from-teal-500/15 via-cyan-500/15 to-sky-500/15"
                 }`} />
               <div className="relative flex items-center bg-background backdrop-blur-md border border-transparent rounded-full p-1.5 pl-5 shadow-2xl transition-all duration-300">
-                <span className="text-muted-foreground font-mono text-sm hidden sm:inline-block mr-1 whitespace-nowrap">
+                <span className={`text-muted-foreground font-mono text-sm mr-1 whitespace-nowrap transition-all duration-200 ${isFocused ? 'hidden sm:inline-block' : 'inline-block'}`}>
                   about-me-api.xyz/
                 </span>
                 <input
@@ -110,6 +111,8 @@ export default function Home() {
                   className="flex-1 bg-transparent border-none text-foreground placeholder:text-muted-foreground/50 focus:ring-0 focus:outline-none text-base font-medium min-w-0"
                   value={username}
                   onChange={(e) => setUsername(e.target.value)}
+                  onFocus={() => setIsFocused(true)}
+                  onBlur={() => setIsFocused(false)}
                   aria-label="Username"
                 />
                 {/* Status indicator */}
