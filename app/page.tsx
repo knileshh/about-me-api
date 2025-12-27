@@ -53,7 +53,7 @@ export default function Home() {
                 <div
                   className="absolute inset-0 animate-shimmer"
                   style={{
-                    background: "linear-gradient(90deg, transparent, rgba(20, 184, 166, 0.5), rgba(6, 182, 212, 1), rgba(20, 184, 166, 0.5), transparent)",
+                    background: "linear-gradient(90deg, transparent 0%, rgba(20, 184, 166, 0.5) 25%, rgba(6, 182, 212, 1) 50%, rgba(20, 184, 166, 0.5) 75%, transparent 100%)",
                     backgroundSize: "200% 100%",
                   }}
                 />
@@ -75,9 +75,9 @@ export default function Home() {
                 <Button
                   type="submit"
                   size="icon"
-                  className="rounded-full bg-primary text-primary-foreground hover:bg-primary/90 w-10 h-10 shrink-0 transition-all active:scale-95 shadow-lg group/btn animate-button-pop"
+                  className="rounded-full bg-primary text-primary-foreground hover:bg-primary/90 w-10 h-10 shrink-0 transition-all active:scale-95 shadow-lg group/btn"
                 >
-                  <ArrowRight size={18} className="group-hover/btn:translate-x-0.5 transition-transform" />
+                  <ArrowRight size={18} className="transition-transform animate-button-pop" />
                 </Button>
               </div>
             </div>
