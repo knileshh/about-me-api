@@ -6,15 +6,10 @@ import Link from "next/link";
 import { ThemeSwitcher } from "@/components/theme-switcher";
 import { ProfileData } from "@/types/profile";
 import { getApiUrl } from "@/lib/config";
+import { RESERVED_USERNAMES } from "@/lib/reserved-usernames";
 
 // Disable prerendering - this page uses auth data to check ownership
 export const dynamic = 'force-dynamic';
-
-// Reserved paths that should NOT be treated as usernames
-const RESERVED_PATHS = [
-    'about', 'api', 'auth', 'blog', 'builder', 'privacy', 'protected', 'terms',
-    'login', 'signup', 'register', 'admin', 'dashboard', 'settings', 'help'
-];
 
 interface PageProps {
     params: Promise<{ username: string }>;
@@ -24,7 +19,7 @@ export async function generateMetadata({ params }: PageProps) {
     const { username } = await params;
 
     // Don't generate metadata for reserved paths
-    if (RESERVED_PATHS.includes(username.toLowerCase())) {
+    if (RESERVED_USERNAMES.includes(username.toLowerCase())) {
         return { title: "Page Not Found | About Me API" };
     }
 
@@ -56,7 +51,7 @@ export default async function ProfilePage({ params }: PageProps) {
     const { username } = await params;
 
     // Check if this is a reserved path - let Next.js handle 404
-    if (RESERVED_PATHS.includes(username.toLowerCase())) {
+    if (RESERVED_USERNAMES.includes(username.toLowerCase())) {
         notFound();
     }
 
