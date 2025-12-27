@@ -6,19 +6,50 @@ import { CodeWindow } from "@/components/code-window";
 import { Footer } from "@/components/footer";
 import { GridBackground } from "@/components/ui/grid-background";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
-import { ArrowRight } from "lucide-react";
+import { useState, useEffect, useCallback } from "react";
+import { ArrowRight, Loader2, Check, X } from "lucide-react";
 
 export default function Home() {
   const router = useRouter();
   const [username, setUsername] = useState("");
+  const [isChecking, setIsChecking] = useState(false);
+  const [isAvailable, setIsAvailable] = useState<boolean | null>(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleClaim = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (username.trim()) {
-      router.push(`/builder?username=${encodeURIComponent(username.trim())}`);
+  // Debounced username check
+  useEffect(() => {
+    if (username.trim().length < 3) {
+      setIsAvailable(null);
+      return;
     }
+
+    const timer = setTimeout(async () => {
+      setIsChecking(true);
+      try {
+        const res = await fetch(`/api/check-username?username=${encodeURIComponent(username.trim())}`);
+        const data = await res.json();
+        setIsAvailable(data.available);
+      } catch {
+        setIsAvailable(null);
+      } finally {
+        setIsChecking(false);
+      }
+    }, 400); // 400ms debounce
+
+    return () => clearTimeout(timer);
+  }, [username]);
+
+  const handleClaim = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!username.trim() || !isAvailable) return;
+
+    setIsSubmitting(true);
+    // Small delay for visual feedback
+    await new Promise(resolve => setTimeout(resolve, 300));
+    router.push(`/builder?username=${encodeURIComponent(username.trim())}`);
   };
+
+  const canSubmit = username.trim().length >= 3 && isAvailable === true && !isSubmitting;
 
   return (
     <GridBackground className="text-foreground flex flex-col font-sans">
@@ -53,16 +84,25 @@ export default function Home() {
                 <div
                   className="absolute inset-0 animate-shimmer"
                   style={{
-                    background: "linear-gradient(90deg, transparent, rgba(20, 184, 166, 0.5), rgba(6, 182, 212, 1), rgba(20, 184, 166, 0.5), transparent)",
+                    background: isAvailable === false
+                      ? "linear-gradient(90deg, transparent, rgba(239, 68, 68, 0.5), rgba(220, 38, 38, 1), rgba(239, 68, 68, 0.5), transparent)"
+                      : isAvailable === true
+                        ? "linear-gradient(90deg, transparent, rgba(34, 197, 94, 0.5), rgba(22, 163, 74, 1), rgba(34, 197, 94, 0.5), transparent)"
+                        : "linear-gradient(90deg, transparent, rgba(20, 184, 166, 0.5), rgba(6, 182, 212, 1), rgba(20, 184, 166, 0.5), transparent)",
                     backgroundSize: "200% 100%",
                   }}
                 />
               </div>
               {/* Glow Effect */}
-              <div className="absolute -inset-2 bg-gradient-to-r from-teal-500/15 via-cyan-500/15 to-sky-500/15 rounded-full blur-xl opacity-50 group-hover:opacity-80 transition-opacity duration-500" />
+              <div className={`absolute -inset-2 rounded-full blur-xl opacity-50 group-hover:opacity-80 transition-opacity duration-500 ${isAvailable === false
+                  ? "bg-gradient-to-r from-red-500/15 via-red-500/15 to-red-500/15"
+                  : isAvailable === true
+                    ? "bg-gradient-to-r from-green-500/15 via-green-500/15 to-green-500/15"
+                    : "bg-gradient-to-r from-teal-500/15 via-cyan-500/15 to-sky-500/15"
+                }`} />
               <div className="relative flex items-center bg-background backdrop-blur-md border border-transparent rounded-full p-1.5 pl-5 shadow-2xl transition-all duration-300">
                 <span className="text-muted-foreground font-mono text-sm hidden sm:inline-block mr-1 whitespace-nowrap">
-                  about-me.api/
+                  about-me-api.com/
                 </span>
                 <input
                   type="text"
@@ -72,12 +112,32 @@ export default function Home() {
                   onChange={(e) => setUsername(e.target.value)}
                   aria-label="Username"
                 />
+                {/* Status indicator */}
+                {username.trim().length >= 3 && (
+                  <div className="mr-2">
+                    {isChecking ? (
+                      <Loader2 size={16} className="animate-spin text-muted-foreground" />
+                    ) : isAvailable === true ? (
+                      <Check size={16} className="text-green-500" />
+                    ) : isAvailable === false ? (
+                      <X size={16} className="text-red-500" />
+                    ) : null}
+                  </div>
+                )}
                 <Button
                   type="submit"
                   size="icon"
-                  className="rounded-full bg-primary text-primary-foreground hover:bg-primary/90 w-10 h-10 shrink-0 transition-all active:scale-95 shadow-lg group/btn"
+                  disabled={!canSubmit}
+                  className={`rounded-full w-10 h-10 shrink-0 transition-all active:scale-95 shadow-lg group/btn ${canSubmit
+                      ? "bg-primary text-primary-foreground hover:bg-primary/90"
+                      : "bg-muted text-muted-foreground cursor-not-allowed"
+                    }`}
                 >
-                  <ArrowRight size={18} className="animate-button-pop" />
+                  {isSubmitting ? (
+                    <Loader2 size={18} className="animate-spin" />
+                  ) : (
+                    <ArrowRight size={18} className={canSubmit ? "animate-button-pop" : ""} />
+                  )}
                 </Button>
               </div>
             </div>
