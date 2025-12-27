@@ -62,6 +62,15 @@ export default {
         sm: "calc(var(--radius) - 4px)",
       },
     },
+    animation: {
+      "grid-beam": "grid-beam 15s linear infinite",
+    },
+    keyframes: {
+      "grid-beam": {
+        "0%": { transform: "translateY(-100%)" },
+        "100%": { transform: "translateY(100%)" },
+      },
+    },
   },
   plugins: [require("tailwindcss-animate")],
 } satisfies Config;

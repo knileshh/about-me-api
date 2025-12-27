@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { FloatingNavbar } from "@/components/floating-navbar";
 import { CodeWindow } from "@/components/code-window";
 import { Footer } from "@/components/footer";
-import { OrbBackground } from "@/components/ui/orb-background";
+import { GridBackground } from "@/components/ui/grid-background";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { ArrowRight } from "lucide-react";
@@ -21,7 +21,7 @@ export default function Home() {
   };
 
   return (
-    <OrbBackground className="text-foreground flex flex-col font-sans selection:bg-primary/20">
+    <GridBackground className="text-foreground flex flex-col font-sans">
       <FloatingNavbar />
 
       {/* Hero Section */}
@@ -29,11 +29,12 @@ export default function Home() {
         <div className="w-full max-w-5xl mx-auto flex flex-col items-center text-center space-y-10">
 
           {/* Hero Copy */}
-          <div className="space-y-5 max-w-4xl">
-            <h1 className="font-serif text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-bold tracking-tight text-foreground leading-[1.1]">
+          <div className="space-y-5 max-w-4xl z-20">
+            <h1 className="font-serif text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-bold tracking-tighter text-foreground leading-[1.05]">
               Your Personal{" "}
-              <span className="bg-gradient-to-r from-purple-400 via-pink-500 to-blue-500 bg-clip-text text-transparent">
+              <span className="text-muted-foreground/80 italic relative inline-block">
                 API Endpoint
+                <span className="absolute -bottom-2 left-0 w-full h-1 bg-gradient-to-r from-transparent via-primary/50 to-transparent opacity-50" />
               </span>
             </h1>
             <p className="text-lg md:text-xl lg:text-2xl text-muted-foreground max-w-2xl mx-auto font-light leading-relaxed">
@@ -44,9 +45,9 @@ export default function Home() {
           {/* Input Form */}
           <form
             onSubmit={handleClaim}
-            className="w-full max-w-lg mx-auto"
+            className="w-full max-w-lg mx-auto z-20"
           >
-            <div className="flex items-center bg-card/80 dark:bg-zinc-900/80 backdrop-blur-xl border border-border/70 dark:border-white/10 rounded-full p-1.5 pl-5 shadow-lg hover:border-primary/50 focus-within:border-primary/50 transition-all duration-300">
+            <div className="flex items-center bg-background/80 backdrop-blur-md border border-border/50 rounded-full p-1.5 pl-5 shadow-2xl hover:border-primary/50 focus-within:border-primary/50 transition-all duration-300">
               <span className="text-muted-foreground font-mono text-sm hidden sm:inline-block mr-1 whitespace-nowrap">
                 about-me.api/
               </span>
@@ -69,14 +70,16 @@ export default function Home() {
           </form>
 
           {/* Code Demo */}
-          <div className="w-full max-w-4xl mt-6">
-            <CodeWindow className="shadow-2xl border border-border/50 dark:border-white/10" />
+          <div className="w-full max-w-4xl mt-6 z-10">
+            <div className="transform hover:scale-[1.01] transition-transform duration-500 ease-out">
+              <CodeWindow className="shadow-2xl border border-white/10 bg-[#0a0a0a]" />
+            </div>
           </div>
         </div>
       </main>
 
       {/* Social Proof */}
-      <section className="w-full border-y border-border/50 dark:border-white/5 bg-muted/30 dark:bg-black/30 backdrop-blur-sm py-10">
+      <section className="w-full border-y border-white/5 bg-background/50 backdrop-blur-sm py-10 z-10">
         <div className="max-w-6xl mx-auto px-6 text-center">
           <p className="text-xs font-medium text-muted-foreground/60 mb-6 uppercase tracking-widest">
             Powering developers at
@@ -92,6 +95,6 @@ export default function Home() {
       </section>
 
       <Footer />
-    </OrbBackground>
+    </GridBackground>
   );
 }

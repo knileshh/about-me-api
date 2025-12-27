@@ -63,7 +63,7 @@ export function CodeWindow({ className }: CodeWindowProps) {
     return (
         <div className={cn("relative group", className)}>
             {/* Window Container */}
-            <div className="relative rounded-xl overflow-hidden bg-[#0D0D0D] border border-white/10 shadow-2xl transition-all duration-500 hover:shadow-primary/5 hover:border-white/20">
+            <div className="relative rounded-2xl overflow-hidden bg-[#0D0D0D] border border-white/10 shadow-2xl transition-all duration-500 hover:shadow-primary/5 hover:border-white/20">
                 {/* Title Bar */}
                 <div className="flex items-center justify-between px-4 py-3 bg-white/5 border-b border-white/5">
                     <div className="flex items-center gap-2">
@@ -71,23 +71,19 @@ export function CodeWindow({ className }: CodeWindowProps) {
                         <div className="w-3 h-3 rounded-full bg-yellow-500/20 border border-yellow-500/50" />
                         <div className="w-3 h-3 rounded-full bg-green-500/20 border border-green-500/50" />
                     </div>
-                    <div className="text-xs font-mono text-zinc-500 flex items-center gap-2">
-                        <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
-                        bash — 80x24
-                    </div>
                 </div>
 
                 {/* Content */}
-                <div className="p-4 font-mono text-sm overflow-x-auto">
+                <div className="p-6 font-mono text-sm overflow-x-auto">
                     {/* Command */}
-                    <div className="flex items-center gap-2 text-zinc-300 mb-4 px-2">
+                    <div className="flex items-center gap-2 text-zinc-300 mb-6 px-2">
                         <span className="text-green-500">➜</span>
                         <span className="text-blue-400">~</span>
                         <span className="typing-text">curl https://about-me-api.com/api/u/knileshh</span>
                     </div>
 
                     {/* Response */}
-                    <div className="space-y-0.5 text-xs md:text-sm">
+                    <div className="space-y-1 text-xs md:text-sm pl-2">
                         {highlightJSON(jsonResponse)}
                     </div>
                 </div>
