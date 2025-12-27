@@ -38,21 +38,8 @@ const nextConfig: NextConfig = {
             key: 'Permissions-Policy',
             value: 'camera=(), microphone=(), geolocation=(), interest-cohort=()',
           },
-          // Content Security Policy
-          {
-            key: 'Content-Security-Policy',
-            value: [
-              "default-src 'self'",
-              "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://va.vercel-scripts.com",
-              "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
-              "font-src 'self' https://fonts.gstatic.com",
-              "img-src 'self' data: blob: https:",
-              "connect-src 'self' https://*.supabase.co wss://*.supabase.co https://va.vercel-scripts.com",
-              "frame-ancestors 'none'",
-              "form-action 'self'",
-              "base-uri 'self'",
-            ].join('; '),
-          },
+          // Note: CSP removed as it conflicts with Next.js development mode
+          // For production, consider using next-secure-headers or similar
         ],
       },
     ];
@@ -60,4 +47,5 @@ const nextConfig: NextConfig = {
 };
 
 export default nextConfig;
+
 
