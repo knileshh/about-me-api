@@ -78,22 +78,6 @@ export default function Home() {
         </div>
       </main>
 
-      {/* Social Proof */}
-      <section className="w-full border-y border-white/5 bg-background/50 backdrop-blur-sm py-10 z-10">
-        <div className="max-w-6xl mx-auto px-6 text-center">
-          <p className="text-xs font-medium text-muted-foreground/60 mb-6 uppercase tracking-widest">
-            Powering developers at
-          </p>
-          <div className="flex flex-wrap justify-center gap-8 md:gap-14 text-lg md:text-xl font-semibold text-muted-foreground/40">
-            <span className="font-serif">Vercel</span>
-            <span className="font-sans tracking-tight">Linear</span>
-            <span className="font-mono">Supabase</span>
-            <span className="font-serif italic">Stripe</span>
-            <span className="font-sans font-bold">Resend</span>
-          </div>
-        </div>
-      </section>
-
       <Footer />
     </GridBackground>
   );
