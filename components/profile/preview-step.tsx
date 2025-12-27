@@ -16,7 +16,7 @@ import {
     DialogHeader,
     DialogTitle,
 } from "@/components/ui/dialog";
-import { Pencil, Check, X } from "lucide-react";
+import { Pencil, Check, X, AlertTriangle } from "lucide-react";
 
 interface PreviewStepProps {
     data: ProfileData;
@@ -32,6 +32,7 @@ export function PreviewStep({ data, username, onUsernameChange, isUsernameLocked
     const [isSaving, setIsSaving] = useState(false);
     const [error, setError] = useState<string | null>(null);
     const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
+    const [isConfirmDialogOpen, setIsConfirmDialogOpen] = useState(false);
     const [tempUsername, setTempUsername] = useState(username);
     const [dialogCheckResult, setDialogCheckResult] = useState<boolean | null>(null);
     const [isDialogChecking, setIsDialogChecking] = useState(false);
@@ -306,13 +307,60 @@ export function PreviewStep({ data, username, onUsernameChange, isUsernameLocked
 
             {/* Save Button */}
             <Button
-                onClick={handleSave}
+                onClick={() => setIsConfirmDialogOpen(true)}
                 disabled={isSaving || !username.trim()}
                 className="w-full bg-green-600 hover:bg-green-700"
                 size="lg"
             >
                 {isSaving ? "Saving..." : "Save Profile & Get Your URL"}
             </Button>
+
+            {/* Save Confirmation Dialog */}
+            <Dialog open={isConfirmDialogOpen} onOpenChange={setIsConfirmDialogOpen}>
+                <DialogContent>
+                    <DialogHeader>
+                        <DialogTitle className="flex items-center gap-2">
+                            <AlertTriangle className="h-5 w-5 text-amber-500" />
+                            Confirm Profile Creation
+                        </DialogTitle>
+                        <DialogDescription className="pt-2">
+                            You are about to create your profile with the username:
+                        </DialogDescription>
+                    </DialogHeader>
+                    <div className="py-4">
+                        <div className="p-4 bg-muted/50 rounded-lg border border-muted text-center">
+                            <span className="text-muted-foreground">about-me-api.xyz/</span>
+                            <span className="font-bold text-lg">{username}</span>
+                        </div>
+                        <div className="mt-4 p-3 bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-800 rounded-md">
+                            <p className="text-sm text-amber-800 dark:text-amber-200 flex items-start gap-2">
+                                <AlertTriangle className="h-4 w-4 mt-0.5 flex-shrink-0" />
+                                <span>
+                                    <strong>Warning:</strong> Your username cannot be changed after profile creation.
+                                    Please make sure this is the username you want.
+                                </span>
+                            </p>
+                        </div>
+                    </div>
+                    <DialogFooter>
+                        <Button
+                            variant="outline"
+                            onClick={() => setIsConfirmDialogOpen(false)}
+                        >
+                            Cancel
+                        </Button>
+                        <Button
+                            onClick={() => {
+                                setIsConfirmDialogOpen(false);
+                                handleSave();
+                            }}
+                            className="bg-green-600 hover:bg-green-700"
+                        >
+                            Confirm & Create Profile
+                        </Button>
+                    </DialogFooter>
+                </DialogContent>
+            </Dialog>
 
             {/* Username Edit Dialog */}
             <Dialog open={isEditDialogOpen} onOpenChange={setIsEditDialogOpen}>
